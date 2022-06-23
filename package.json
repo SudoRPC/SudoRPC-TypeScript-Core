@@ -1,23 +1,21 @@
 {
-  "name": "@sudoo/parcel-track",
-  "version": "1.2.0",
-  "description": "Parcel Tracking for JS",
+  "name": "@sudorpc/core",
+  "version": "1.0.0",
+  "description": "TypeScript Core for SudoRPC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SudoDotDog/Sudoo-Parcel-Track.git"
+    "url": "git+https://github.com/SudoRPC/SudoRPC-TypeScript-Core.git"
   },
   "keywords": [
-    "Parcel",
-    "Tracking"
+    "RPC"
   ],
   "author": "WMXPY",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/SudoDotDog/Sudoo-Parcel-Track/issues"
+    "url": "https://github.com/SudoRPC/SudoRPC-TypeScript-Core/issues"
   },
-  "homepage": "https://github.com/SudoDotDog/Sudoo-Parcel-Track#readme",
+  "homepage": "https://github.com/SudoRPC/SudoRPC-TypeScript-Core#readme",
   "devDependencies": {
-    "@sudoo/io": "^1.8.0",
     "@sudoo/triforce": "^3.7.0"
   },
   "nyc": {
