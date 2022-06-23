@@ -1,6 +1,6 @@
 /**
  * @author WMXPY
- * @namespace Structure
+ * @namespace Declare
  * @description Return
  */
 
@@ -28,12 +28,15 @@ export type SudoRPCReturnV1Success<SuccessResult> = {
     readonly result: SuccessResult;
 };
 
+export type SudoRPCError = {
+
+    readonly error: string;
+    readonly message: string;
+};
+
 export type SudoRPCReturnV1Fail<FailResult> = {
 
     readonly success: false;
 
-    readonly error: string;
-    readonly message: string;
-
     readonly result: FailResult;
-};
+} & SudoRPCError;

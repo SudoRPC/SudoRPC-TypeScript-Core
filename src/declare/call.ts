@@ -1,6 +1,6 @@
 /**
  * @author WMXPY
- * @namespace Structure
+ * @namespace Declare
  * @description Call
  */
 
