@@ -1,0 +1,38 @@
+{
+  "name": "@sudoo/parcel-track",
+  "version": "1.2.0",
+  "description": "Parcel Tracking for JS",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SudoDotDog/Sudoo-Parcel-Track.git"
+  },
+  "keywords": [
+    "Parcel",
+    "Tracking"
+  ],
+  "author": "WMXPY",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SudoDotDog/Sudoo-Parcel-Track/issues"
+  },
+  "homepage": "https://github.com/SudoDotDog/Sudoo-Parcel-Track#readme",
+  "devDependencies": {
+    "@sudoo/io": "^1.8.0",
+    "@sudoo/triforce": "^3.7.0"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "include": [
+      "src/**/*.ts"
+    ],
+    "instrument": true,
+    "reporter": [
+      "json",
+      "text-summary"
+    ],
+    "report-dir": "coverage",
+    "sourceMap": true
+  }
+}
