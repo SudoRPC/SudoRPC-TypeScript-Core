@@ -32,7 +32,7 @@ export type SudoRPCReturnV1Fail<FailResult> = {
 
     readonly success: false;
 
-    readonly code: number;
+    readonly error: string;
     readonly message: string;
 
     readonly result: FailResult;

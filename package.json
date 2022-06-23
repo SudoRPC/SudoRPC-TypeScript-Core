@@ -32,5 +32,8 @@
     ],
     "report-dir": "coverage",
     "sourceMap": true
+  },
+  "dependencies": {
+    "@sudoo/resource": "^1.4.0"
   }
 }
