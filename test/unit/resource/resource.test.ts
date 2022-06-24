@@ -15,7 +15,7 @@ describe('Given {SudoRPCResource} Class', (): void => {
 
     it('should be able to construct', (): void => {
 
-        const resource: SudoRPCResource = SudoRPCResource.create(chance.string());
+        const resource = SudoRPCResource.create(chance.string());
 
         expect(resource).to.be.instanceOf(SudoRPCResource);
     });

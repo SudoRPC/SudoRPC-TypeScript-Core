@@ -4,18 +4,23 @@
  * @description Resource
  */
 
-export class SudoRPCResource {
+export class SudoRPCResource<Metadata, Payload, SuccessResult, FailResult> {
 
-    public static create(
+    public static create<Metadata, Payload, SuccessResult, FailResult>(
         identifier: string,
         dependencies: string[] = [],
         satisfies: string[] = [],
-    ): SudoRPCResource {
+    ): SudoRPCResource<Metadata, Payload, SuccessResult, FailResult> {
 
-        return new SudoRPCResource(identifier, dependencies, satisfies);
+        return new SudoRPCResource<Metadata, Payload, SuccessResult, FailResult>(
+            identifier,
+            dependencies,
+            satisfies,
+        );
     }
 
     private readonly _identifier: string;
+
     private readonly _dependencies: string[];
     private readonly _satisfies: string[];
 
@@ -24,7 +29,9 @@ export class SudoRPCResource {
         dependencies: string[] = [],
         satisfies: string[] = [],
     ) {
+
         this._identifier = identifier;
+
         this._dependencies = dependencies;
         this._satisfies = satisfies;
     }

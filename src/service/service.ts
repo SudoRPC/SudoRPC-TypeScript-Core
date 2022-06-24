@@ -6,23 +6,33 @@
 
 import { SudoRPCResource } from "../resource/resource";
 
-export class SudoRPCService {
+export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> {
 
-    public static create(): SudoRPCService {
+    public static create<Metadata, Payload, SuccessResult, FailResult>(
+        identifier: string,
+    ): SudoRPCService<Metadata, Payload, SuccessResult, FailResult> {
 
-        return new SudoRPCService();
+        return new SudoRPCService<Metadata, Payload, SuccessResult, FailResult>(
+            identifier,
+        );
     }
 
-    private readonly _resources: Set<SudoRPCResource>;
-    private readonly _satisfies: Map<string, WeakSet<SudoRPCResource>>;
+    private readonly _identifier: string;
 
-    private constructor() {
+    private readonly _resources: Set<SudoRPCResource<Metadata, Payload, SuccessResult, FailResult>>;
+    private readonly _satisfies: Map<string, WeakSet<SudoRPCResource<Metadata, Payload, SuccessResult, FailResult>>>;
+
+    private constructor(
+        identifier: string,
+    ) {
+
+        this._identifier = identifier;
 
         this._resources = new Set();
         this._satisfies = new Map();
     }
 
-    public register(resource: SudoRPCResource): void {
+    public register(resource: SudoRPCResource<Metadata, Payload, SuccessResult, FailResult>): void {
 
         this._resources.add(resource);
         for (const satisfy of resource.satisfies) {

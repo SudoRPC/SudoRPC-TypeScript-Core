@@ -15,7 +15,7 @@ describe('Given {SudoRPCService} Class', (): void => {
 
     it('should be able to construct', (): void => {
 
-        const service: SudoRPCService = SudoRPCService.create();
+        const service = SudoRPCService.create(chance.string());
 
         expect(service).to.be.instanceOf(SudoRPCService);
     });
