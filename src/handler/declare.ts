@@ -4,22 +4,36 @@
  * @description Declare
  */
 
-import { SudoRPCReturn } from "../structure/return";
 import { SudoRPCHandlerContext } from "./context";
+import { SudoRPCEndpointHandlerHelper } from "./endpoint-helper";
+import { SudoRPCMiddlewareHandlerHelper } from "./middleware-helper";
+
+export type SudoRPCEndpointResourceHandlerReturnObject<SuccessResult, FailResult> = {
+    readonly succeed: true;
+    readonly result: SuccessResult;
+} | {
+    readonly succeed: false;
+    readonly error: string;
+    readonly message: string;
+    readonly result: FailResult;
+};
 
 export type SudoRPCEndpointResourceHandlerReturn<SuccessResult, FailResult> =
-    | Promise<SudoRPCReturn<SuccessResult, FailResult>>
-    | SudoRPCReturn<SuccessResult, FailResult>;
+    | Promise<SudoRPCEndpointResourceHandlerReturnObject<SuccessResult, FailResult>>
+    | SudoRPCEndpointResourceHandlerReturnObject<SuccessResult, FailResult>;
 
 export type SudoRPCEndpointResourceHandler<Metadata, Payload, SuccessResult, FailResult> =
-    (context: SudoRPCHandlerContext) => SudoRPCEndpointResourceHandlerReturn<SuccessResult, FailResult>;
+    (
+        context: SudoRPCHandlerContext<Metadata, Payload>,
+        helper: SudoRPCEndpointHandlerHelper,
+    ) => SudoRPCEndpointResourceHandlerReturn<SuccessResult, FailResult>;
 
 export type SudoRPCMiddlewareResourceHandlerReturnObject<FailResult> = {
-
-    readonly shouldNext: false;
+    readonly shouldNext: true;
 } | {
-
     readonly shouldNext: false;
+    readonly error: string;
+    readonly message: string;
     readonly result: FailResult;
 };
 
@@ -28,4 +42,7 @@ export type SudoRPCMiddlewareResourceHandlerReturn<FailResult> =
     | SudoRPCMiddlewareResourceHandlerReturnObject<FailResult>;
 
 export type SudoRPCMiddlewareResourceHandler<Metadata, Payload, FailResult> =
-    (context: SudoRPCHandlerContext) => SudoRPCMiddlewareResourceHandlerReturn<FailResult>;
+    (
+        context: SudoRPCHandlerContext<Metadata, Payload>,
+        helper: SudoRPCMiddlewareHandlerHelper,
+    ) => SudoRPCMiddlewareResourceHandlerReturn<FailResult>;
