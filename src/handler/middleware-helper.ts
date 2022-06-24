@@ -5,8 +5,9 @@
  */
 
 import { SudoRPCCall } from "../structure/call";
+import { SudoRPCBaseHandlerHelper } from "./base-helper";
 
-export class SudoRPCMiddlewareHandlerHelper<Metadata, Payload, FailResult>{
+export class SudoRPCMiddlewareHandlerHelper<Metadata, Payload, FailResult> extends SudoRPCBaseHandlerHelper<Metadata, Payload> {
 
     public static create<Metadata, Payload, FailResult>(
         call: SudoRPCCall<Metadata, Payload>,
@@ -15,12 +16,10 @@ export class SudoRPCMiddlewareHandlerHelper<Metadata, Payload, FailResult>{
         return new SudoRPCMiddlewareHandlerHelper(call);
     }
 
-    private readonly _call: SudoRPCCall<Metadata, Payload>;
-
     private constructor(
         call: SudoRPCCall<Metadata, Payload>,
     ) {
 
-        this._call = call;
+        super(call);
     }
 }
