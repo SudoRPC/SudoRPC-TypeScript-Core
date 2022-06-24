@@ -9,24 +9,24 @@ import { SudoRPCResource } from "../resource/resource";
 export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> {
 
     public static create<Metadata, Payload, SuccessResult, FailResult>(
-        identifier: string,
+        serviceName: string,
     ): SudoRPCService<Metadata, Payload, SuccessResult, FailResult> {
 
         return new SudoRPCService<Metadata, Payload, SuccessResult, FailResult>(
-            identifier,
+            serviceName,
         );
     }
 
-    private readonly _identifier: string;
+    private readonly _serviceName: string;
 
     private readonly _resources: Set<SudoRPCResource<Metadata, Payload, SuccessResult, FailResult>>;
     private readonly _satisfies: Map<string, WeakSet<SudoRPCResource<Metadata, Payload, SuccessResult, FailResult>>>;
 
     private constructor(
-        identifier: string,
+        serviceName: string,
     ) {
 
-        this._identifier = identifier;
+        this._serviceName = serviceName;
 
         this._resources = new Set();
         this._satisfies = new Map();

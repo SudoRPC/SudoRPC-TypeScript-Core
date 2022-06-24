@@ -7,37 +7,37 @@
 export class SudoRPCResource<Metadata, Payload, SuccessResult, FailResult> {
 
     public static create<Metadata, Payload, SuccessResult, FailResult>(
-        identifier: string,
+        resourceName: string,
         dependencies: string[] = [],
         satisfies: string[] = [],
     ): SudoRPCResource<Metadata, Payload, SuccessResult, FailResult> {
 
         return new SudoRPCResource<Metadata, Payload, SuccessResult, FailResult>(
-            identifier,
+            resourceName,
             dependencies,
             satisfies,
         );
     }
 
-    private readonly _identifier: string;
+    private readonly _resourceName: string;
 
     private readonly _dependencies: string[];
     private readonly _satisfies: string[];
 
     private constructor(
-        identifier: string,
+        resourceName: string,
         dependencies: string[],
         satisfies: string[],
     ) {
 
-        this._identifier = identifier;
+        this._resourceName = resourceName;
 
         this._dependencies = dependencies;
         this._satisfies = satisfies;
     }
 
-    public get identifier(): string {
-        return this._identifier;
+    public get resourceName(): string {
+        return this._resourceName;
     }
 
     public get dependencies(): string[] {
