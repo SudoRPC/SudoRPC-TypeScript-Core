@@ -39,6 +39,10 @@ export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> {
         this._satisfies = new Map();
     }
 
+    public get serviceName(): string {
+        return this._serviceName;
+    }
+
     public register(resource: AvailableResource<Metadata, Payload, SuccessResult, FailResult>): void {
 
         this._resources.add(resource);
