@@ -1,10 +1,10 @@
 /**
  * @author WMXPY
- * @namespace Call
+ * @namespace Handler
  * @description Process Manager
  */
 
-export class SudoRPCCallProcessManager {
+export class SudoRPCProcessManager {
 
     private readonly _notExecuted: Set<string>;
     private readonly _satisfiedRequirements: Set<string>;

@@ -5,6 +5,8 @@
  */
 
 import { SudoRPCResource } from "../resource/resource";
+import { SudoRPCCall } from "../structure/call";
+import { SudoRPCReturn } from "../structure/return";
 
 export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> {
 
@@ -42,5 +44,10 @@ export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> {
             }
             this._satisfies.get(satisfy)!.add(resource);
         }
+    }
+
+    public execute(call: SudoRPCCall<Metadata, Payload>): Promise<SudoRPCReturn<SuccessResult, FailResult>> | SudoRPCReturn<SuccessResult, FailResult> {
+
+        return null as any;
     }
 }
