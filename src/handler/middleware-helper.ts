@@ -1,10 +1,10 @@
 /**
  * @author WMXPY
  * @namespace Handler
- * @description Helper
+ * @description Middleware Helper
  */
 
-export class SudoRPCHandlerHelper {
+export class SudoRPCMiddlewareHandlerHelper {
 
     private readonly _identifier: string;
 }
