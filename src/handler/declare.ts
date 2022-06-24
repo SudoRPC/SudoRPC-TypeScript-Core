@@ -4,6 +4,6 @@
  * @description Declare
  */
 
-export type SudoRPCHandler<Metadata, Payload> = (metadata: Metadata, payload: Payload) => {
+export type SudoRPCHandlerFunction<Metadata, Payload> = (metadata: Metadata, payload: Payload) => {
 
 };
