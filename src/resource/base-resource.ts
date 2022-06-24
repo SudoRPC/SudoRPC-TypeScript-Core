@@ -6,10 +6,10 @@
 
 export abstract class SudoRPCBaseResource {
 
-    private readonly _resourceName: string;
+    protected readonly _resourceName: string;
 
-    private readonly _dependencies: string[];
-    private readonly _satisfies: string[];
+    protected readonly _dependencies: string[];
+    protected readonly _satisfies: string[];
 
     protected constructor(
         resourceName: string,
