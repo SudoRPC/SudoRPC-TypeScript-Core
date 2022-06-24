@@ -8,6 +8,11 @@ import { SudoRPCResource } from "../resource/resource";
 
 export class SudoRPCService {
 
+    public static create(): SudoRPCService {
+
+        return new SudoRPCService();
+    }
+
     private readonly _resources: Set<SudoRPCResource>;
     private readonly _satisfies: Map<string, WeakSet<SudoRPCResource>>;
 

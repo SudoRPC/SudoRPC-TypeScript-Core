@@ -6,6 +6,15 @@
 
 export class SudoRPCResource {
 
+    public static create(
+        identifier: string,
+        dependencies: string[] = [],
+        satisfies: string[] = [],
+    ): SudoRPCResource {
+
+        return new SudoRPCResource(identifier, dependencies, satisfies);
+    }
+
     private readonly _identifier: string;
     private readonly _dependencies: string[];
     private readonly _satisfies: string[];
