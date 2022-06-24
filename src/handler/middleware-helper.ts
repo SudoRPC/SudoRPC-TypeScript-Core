@@ -4,7 +4,23 @@
  * @description Middleware Helper
  */
 
-export class SudoRPCMiddlewareHandlerHelper {
+import { SudoRPCCall } from "../structure/call";
 
-    private readonly _identifier: string;
+export class SudoRPCMiddlewareHandlerHelper<Metadata, Payload, FailResult>{
+
+    public static create<Metadata, Payload, FailResult>(
+        call: SudoRPCCall<Metadata, Payload>,
+    ): SudoRPCMiddlewareHandlerHelper<Metadata, Payload, FailResult> {
+
+        return new SudoRPCMiddlewareHandlerHelper(call);
+    }
+
+    private readonly _call: SudoRPCCall<Metadata, Payload>;
+
+    private constructor(
+        call: SudoRPCCall<Metadata, Payload>,
+    ) {
+
+        this._call = call;
+    }
 }

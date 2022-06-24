@@ -25,7 +25,7 @@ export type SudoRPCEndpointResourceHandlerReturn<SuccessResult, FailResult> =
 export type SudoRPCEndpointResourceHandler<Metadata, Payload, SuccessResult, FailResult> =
     (
         context: SudoRPCHandlerContext<Metadata, Payload>,
-        helper: SudoRPCEndpointHandlerHelper,
+        helper: SudoRPCEndpointHandlerHelper<Metadata, Payload, SuccessResult, FailResult>,
     ) => SudoRPCEndpointResourceHandlerReturn<SuccessResult, FailResult>;
 
 export type SudoRPCMiddlewareResourceHandlerReturnObject<FailResult> = {
@@ -44,5 +44,5 @@ export type SudoRPCMiddlewareResourceHandlerReturn<FailResult> =
 export type SudoRPCMiddlewareResourceHandler<Metadata, Payload, FailResult> =
     (
         context: SudoRPCHandlerContext<Metadata, Payload>,
-        helper: SudoRPCMiddlewareHandlerHelper,
+        helper: SudoRPCMiddlewareHandlerHelper<Metadata, Payload, FailResult>,
     ) => SudoRPCMiddlewareResourceHandlerReturn<FailResult>;

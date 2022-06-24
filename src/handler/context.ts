@@ -4,10 +4,29 @@
  * @description Context
  */
 
+import { SudoRPCCall } from "../structure/call";
+
+const DEFAULT_NAMESPACE_SYMBOL = Symbol("default-namespace");
+
 export class SudoRPCHandlerContext<Metadata, Payload> {
 
-    private readonly _metadata: Metadata;
-    private readonly _payload: Payload;
+    public static create<Metadata, Payload>(
+        call: SudoRPCCall<Metadata, Payload>,
+    ): SudoRPCHandlerContext<Metadata, Payload> {
 
-    private readonly _identifier: string;
+        return new SudoRPCHandlerContext(call);
+    }
+
+    private readonly _call: SudoRPCCall<Metadata, Payload>;
+
+    private readonly _namespaces: Map<Symbol, Map<string, any>>;
+
+    private constructor(
+        call: SudoRPCCall<Metadata, Payload>,
+    ) {
+
+        this._call = call;
+
+        this._namespaces = new Map();
+    }
 }
