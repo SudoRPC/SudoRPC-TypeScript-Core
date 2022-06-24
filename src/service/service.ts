@@ -4,9 +4,14 @@
  * @description Service
  */
 
-import { SudoRPCResource } from "../resource/resource";
+import { SudoRPCEndpointResource } from "../resource/endpoint-resource";
+import { SudoRPCMiddlewareResource } from "../resource/middleware-resource";
 import { SudoRPCCall } from "../structure/call";
 import { SudoRPCReturn } from "../structure/return";
+
+type AvailableResource<Metadata, Payload, SuccessResult, FailResult> =
+    | SudoRPCMiddlewareResource<Metadata, Payload, FailResult>
+    | SudoRPCEndpointResource<Metadata, Payload, SuccessResult, FailResult>;
 
 export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> {
 
@@ -21,8 +26,8 @@ export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> {
 
     private readonly _serviceName: string;
 
-    private readonly _resources: Set<SudoRPCResource<Metadata, Payload, SuccessResult, FailResult>>;
-    private readonly _satisfies: Map<string, WeakSet<SudoRPCResource<Metadata, Payload, SuccessResult, FailResult>>>;
+    private readonly _resources: Set<AvailableResource<Metadata, Payload, SuccessResult, FailResult>>;
+    private readonly _satisfies: Map<string, WeakSet<AvailableResource<Metadata, Payload, SuccessResult, FailResult>>>;
 
     private constructor(
         serviceName: string,
@@ -34,7 +39,7 @@ export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> {
         this._satisfies = new Map();
     }
 
-    public register(resource: SudoRPCResource<Metadata, Payload, SuccessResult, FailResult>): void {
+    public register(resource: AvailableResource<Metadata, Payload, SuccessResult, FailResult>): void {
 
         this._resources.add(resource);
         for (const satisfy of resource.satisfies) {

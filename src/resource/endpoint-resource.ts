@@ -1,18 +1,18 @@
 /**
  * @author WMXPY
  * @namespace Resource
- * @description Resource
+ * @description Endpoint Resource
  */
 
-export class SudoRPCResource<Metadata, Payload, SuccessResult, FailResult> {
+export class SudoRPCEndpointResource<Metadata, Payload, SuccessResult, FailResult> {
 
     public static create<Metadata, Payload, SuccessResult, FailResult>(
         resourceName: string,
         dependencies: string[] = [],
         satisfies: string[] = [],
-    ): SudoRPCResource<Metadata, Payload, SuccessResult, FailResult> {
+    ): SudoRPCEndpointResource<Metadata, Payload, SuccessResult, FailResult> {
 
-        return new SudoRPCResource<Metadata, Payload, SuccessResult, FailResult>(
+        return new SudoRPCEndpointResource<Metadata, Payload, SuccessResult, FailResult>(
             resourceName,
             dependencies,
             satisfies,
