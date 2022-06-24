@@ -26,8 +26,8 @@ export class SudoRPCResource<Metadata, Payload, SuccessResult, FailResult> {
 
     private constructor(
         identifier: string,
-        dependencies: string[] = [],
-        satisfies: string[] = [],
+        dependencies: string[],
+        satisfies: string[],
     ) {
 
         this._identifier = identifier;
