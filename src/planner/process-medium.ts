@@ -36,18 +36,26 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
         return this._steps;
     }
 
-    public fulfill(resource: AvailableResource<Metadata, Payload, SuccessResult, FailResult>): void {
+    public fulfill(resource: AvailableResource<Metadata, Payload, SuccessResult, FailResult>): boolean {
 
         const dependencies: string[] = resource.dependencies;
         for (const dependency of dependencies) {
-            this._fulfillDependency(dependency);
+
+            if (!this._fulfillDependency(dependency)) {
+                return false;
+            }
         }
+        return true;
     }
 
     private _fulfillDependency(dependency: string): boolean {
 
         if (!this._satisfies.has(dependency)) {
             return false;
+        }
+
+        if (this._fulfilledDependencies.has(dependency)) {
+            return true;
         }
 
         const possibleFulfills: Set<AvailableResource<Metadata, Payload, SuccessResult, FailResult>> = this._satisfies.get(dependency)!;
