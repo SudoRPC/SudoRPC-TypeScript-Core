@@ -48,7 +48,9 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
         return this._steps;
     }
 
-    public fulfill(resource: AvailableResource<Metadata, Payload, SuccessResult, FailResult>): FulfillDependencySymbolResult {
+    public fulfill(
+        resource: AvailableResource<Metadata, Payload, SuccessResult, FailResult>,
+    ): FulfillDependencySymbolResult {
 
         const visitedResources: Set<AvailableResource<Metadata, Payload, SuccessResult, FailResult>> = new Set();
         visitedResources.add(resource);
@@ -104,13 +106,14 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
                 dependencyOf: dependency,
                 resource: possibleFulfill,
             });
-
             return PROCESS_MEDIUM_SUCCEED_SYMBOL;
         }
         return PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL;
     }
 
-    private _canExecute(resource: AvailableResource<Metadata, Payload, SuccessResult, FailResult>): boolean {
+    private _canExecute(
+        resource: AvailableResource<Metadata, Payload, SuccessResult, FailResult>,
+    ): boolean {
 
         for (const dependency of resource.dependencies) {
 

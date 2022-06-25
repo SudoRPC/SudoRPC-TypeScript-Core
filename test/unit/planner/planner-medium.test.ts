@@ -7,7 +7,7 @@
 
 import { expect } from "chai";
 import * as Chance from "chance";
-import { SudoRPCExecutionPlanStep, SudoRPCProcessMedium } from "../../../src";
+import { FulfillDependencySymbolResult, PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL, PROCESS_MEDIUM_SUCCEED_SYMBOL, SudoRPCExecutionPlanStep, SudoRPCProcessMedium } from "../../../src";
 import { infinityLoopSatisfies, infinityLoopSatisfiesRoot } from "../../mock/dependencies/infinity-loop-satisfies";
 import { simpleSatisfies, simpleSatisfiesRoot } from "../../mock/dependencies/simple-satisfies";
 import { twoResourcesNeedOneSatisfies, twoResourcesNeedOneSatisfiesRoot } from "../../mock/dependencies/two-resource-need-one-satisfies";
@@ -26,43 +26,43 @@ describe('Given {SudoRPCProcessMedium} Class', (): void => {
     it('should be able to resolve simple dependencies', (): void => {
 
         const processMedium = SudoRPCProcessMedium.create(simpleSatisfies);
-        const result: boolean = processMedium.fulfill(simpleSatisfiesRoot);
+        const result: FulfillDependencySymbolResult = processMedium.fulfill(simpleSatisfiesRoot);
 
         const steps: SudoRPCExecutionPlanStep<any, any, any, any>[] = processMedium.steps;
 
-        expect(result).to.be.true;
+        expect(result).to.be.equal(PROCESS_MEDIUM_SUCCEED_SYMBOL);
         expect(steps).to.has.lengthOf(2);
     });
 
     it('should be able to resolve simple dependencies twice', (): void => {
 
         const processMedium = SudoRPCProcessMedium.create(simpleSatisfies);
-        const result1: boolean = processMedium.fulfill(simpleSatisfiesRoot);
-        const result2: boolean = processMedium.fulfill(simpleSatisfiesRoot);
+        const result1: FulfillDependencySymbolResult = processMedium.fulfill(simpleSatisfiesRoot);
+        const result2: FulfillDependencySymbolResult = processMedium.fulfill(simpleSatisfiesRoot);
 
         const steps: SudoRPCExecutionPlanStep<any, any, any, any>[] = processMedium.steps;
 
-        expect(result1).to.be.true;
-        expect(result2).to.be.true;
+        expect(result1).to.be.equal(PROCESS_MEDIUM_SUCCEED_SYMBOL);
+        expect(result2).to.be.equal(PROCESS_MEDIUM_SUCCEED_SYMBOL);
         expect(steps).to.has.lengthOf(2);
     });
 
     it('should be able to resolve two resources need one dependencies', (): void => {
 
         const processMedium = SudoRPCProcessMedium.create(twoResourcesNeedOneSatisfies);
-        const result: boolean = processMedium.fulfill(twoResourcesNeedOneSatisfiesRoot);
+        const result: FulfillDependencySymbolResult = processMedium.fulfill(twoResourcesNeedOneSatisfiesRoot);
 
         const steps: SudoRPCExecutionPlanStep<any, any, any, any>[] = processMedium.steps;
 
-        expect(result).to.be.true;
+        expect(result).to.be.equal(PROCESS_MEDIUM_SUCCEED_SYMBOL);
         expect(steps).to.has.lengthOf(3);
     });
 
     it('should be able to reject infinity loop dependencies', (): void => {
 
         const processMedium = SudoRPCProcessMedium.create(infinityLoopSatisfies);
-        const result: boolean = processMedium.fulfill(infinityLoopSatisfiesRoot);
+        const result: FulfillDependencySymbolResult = processMedium.fulfill(infinityLoopSatisfiesRoot);
 
-        expect(result).to.be.false;
+        expect(result).to.be.equal(PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL);
     });
 });

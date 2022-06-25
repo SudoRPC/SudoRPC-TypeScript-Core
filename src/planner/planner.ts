@@ -6,7 +6,7 @@
 
 import { SudoRPCCall } from "../structure/call";
 import { AvailableResource, SudoRPCExecutionPlan, SudoRPCExecutionPlanStep, SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON, SUDORPC_PLAN_EXECUTE_STEP_REASON } from "./declare";
-import { SudoRPCProcessMedium } from "./process-medium";
+import { FulfillDependencySymbolResult, PROCESS_MEDIUM_DEPENDENCY_NOT_FOUND_SYMBOL, PROCESS_MEDIUM_SUCCEED_SYMBOL, SudoRPCProcessMedium } from "./process-medium";
 
 export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
 
@@ -55,18 +55,38 @@ export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
 
         const medium: SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> = SudoRPCProcessMedium.create(this._satisfies);
 
-        medium.fulfill(targetResource);
-        const steps: SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>[] = [
-            {
-                reason: SUDORPC_PLAN_EXECUTE_STEP_REASON.CALL,
-                resource: targetResource,
-            },
-            ...medium.steps,
-        ];
+        const result: FulfillDependencySymbolResult = medium.fulfill(targetResource);
+
+        switch (result) {
+
+            case PROCESS_MEDIUM_SUCCEED_SYMBOL: {
+
+                const steps: SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>[] = [
+                    {
+                        reason: SUDORPC_PLAN_EXECUTE_STEP_REASON.CALL,
+                        resource: targetResource,
+                    },
+                    ...medium.steps,
+                ];
+
+                return {
+                    satisfiable: true,
+                    steps,
+                };
+            }
+            case PROCESS_MEDIUM_DEPENDENCY_NOT_FOUND_SYMBOL: {
+
+                return {
+                    satisfiable: false,
+                    reason: SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON.DEPENDENCY_NOT_FOUND,
+                    dependency: '',
+                };
+            }
+        }
 
         return {
-            satisfiable: true,
-            steps,
+            satisfiable: false,
+            reason: SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON.UNKNOWN,
         };
     }
 
