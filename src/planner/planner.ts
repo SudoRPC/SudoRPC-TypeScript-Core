@@ -6,7 +6,7 @@
 
 import { SudoRPCCall } from "../structure/call";
 import { AvailableResource, SudoRPCExecutionPlan, SudoRPCExecutionPlanStep, SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON } from "./declare";
-import { SudoRPCPlannerProcessManager } from "./process-manager";
+import { SudoRPCProcessMedium } from "./process-medium";
 
 export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
 
@@ -41,23 +41,22 @@ export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
 
     public plan(call: SudoRPCCall<Metadata, Payload>): SudoRPCExecutionPlan<Metadata, Payload, SuccessResult, FailResult> {
 
-        const targetResource: string = call.resource;
+        const targetResourceName: string = call.resource;
 
-        if (!this._resources.has(targetResource)) {
+        if (!this._resources.has(targetResourceName)) {
             return {
                 satisfiable: false,
                 reason: SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON.RESOURCE_NOT_FOUND,
-                resource: targetResource,
+                resource: targetResourceName,
             };
         }
 
-        const processManager: SudoRPCPlannerProcessManager<Metadata, Payload, SuccessResult, FailResult> = SudoRPCPlannerProcessManager.create(
-            this._resources,
-            this._satisfies,
-        );
+        const targetResource: AvailableResource<Metadata, Payload, SuccessResult, FailResult> = this._resources.get(targetResourceName)!;
 
+        const medium: SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> = SudoRPCProcessMedium.create(this._satisfies);
 
-
+        medium.fulfill(targetResource);
+        const steps: SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>[] = medium.steps;
 
         return null as any;
     }

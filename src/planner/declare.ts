@@ -31,7 +31,7 @@ export type SudoRPCExecutionPlanCallStep<Metadata, Payload, SuccessResult, FailR
 export type SudoRPCExecutionPlanDependencyStep<Metadata, Payload, SuccessResult, FailResult> = {
 
     readonly reason: SUDORPC_PLAN_EXECUTE_STEP_REASON.DEPENDENCY;
-    readonly dependencyOf: AvailableResource<Metadata, Payload, SuccessResult, FailResult>;
+    readonly dependencyOf: string;
 
     readonly resource: AvailableResource<Metadata, Payload, SuccessResult, FailResult>;
 };
