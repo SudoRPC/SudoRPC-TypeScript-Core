@@ -12,6 +12,8 @@ export * from "./handler/middleware-helper";
 export * from "./resource/base-resource";
 export * from "./resource/endpoint-resource";
 export * from "./resource/middleware-resource";
+export * from "./service/planner";
+export * from "./service/process-manager";
 export * from "./service/service";
 export * from "./structure/call";
 export * from "./structure/return";

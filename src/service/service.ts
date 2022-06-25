@@ -55,7 +55,7 @@ export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> {
         }
     }
 
-    public execute(call: SudoRPCCall<Metadata, Payload>): Promise<SudoRPCReturn<SuccessResult, FailResult>> | SudoRPCReturn<SuccessResult, FailResult> {
+    public async execute(call: SudoRPCCall<Metadata, Payload>): Promise<SudoRPCReturn<SuccessResult, FailResult>> {
 
         return null as any;
     }
