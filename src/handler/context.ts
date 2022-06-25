@@ -1,6 +1,6 @@
 /**
  * @author WMXPY
- * @namespace Resource
+ * @namespace Handler
  * @description Context
  */
 
@@ -8,13 +8,13 @@ import { SudoRPCCall } from "../structure/call";
 
 const DEFAULT_NAMESPACE_SYMBOL = Symbol("default-namespace");
 
-export class SudoRPCResourceContext<Metadata, Payload> {
+export class SudoRPCHandlerContext<Metadata, Payload> {
 
     public static create<Metadata, Payload>(
         call: SudoRPCCall<Metadata, Payload>,
-    ): SudoRPCResourceContext<Metadata, Payload> {
+    ): SudoRPCHandlerContext<Metadata, Payload> {
 
-        return new SudoRPCResourceContext(call);
+        return new SudoRPCHandlerContext(call);
     }
 
     private readonly _call: SudoRPCCall<Metadata, Payload>;

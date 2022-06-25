@@ -4,8 +4,8 @@
  * @description Base Resource
  */
 
+import { SudoRPCHandlerContext } from "../handler/context";
 import { SudoRPCCall } from "../structure/call";
-import { SudoRPCResourceContext } from "./context";
 
 export abstract class SudoRPCBaseResource<Metadata, Payload, SuccessResult, FailResult> {
 
@@ -46,10 +46,10 @@ export abstract class SudoRPCBaseResource<Metadata, Payload, SuccessResult, Fail
         this._satisfies.push(satisfy);
     }
 
-    protected _createContext(call: SudoRPCCall<Metadata, Payload>): SudoRPCResourceContext<Metadata, Payload> {
+    protected _createContext(call: SudoRPCCall<Metadata, Payload>): SudoRPCHandlerContext<Metadata, Payload> {
 
-        const context: SudoRPCResourceContext<Metadata, Payload> =
-            SudoRPCResourceContext.create(call);
+        const context: SudoRPCHandlerContext<Metadata, Payload> =
+            SudoRPCHandlerContext.create(call);
 
         return context;
     }
