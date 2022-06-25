@@ -40,6 +40,7 @@ export enum SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON {
 
     DEPENDENCY_NOT_FOUND = 'DEPENDENCY_NOT_FOUND',
     DEPENDENCY_INFINITE_LOOP = 'DEPENDENCY_INFINITE_LOOP',
+    RESOURCE_NOT_FOUND = 'RESOURCE_NOT_FOUND',
 }
 
 export type SudoRPCExecutionNotSatisfiedPlan<Metadata, Payload, SuccessResult, FailResult> =
@@ -52,6 +53,11 @@ export type SudoRPCExecutionNotSatisfiedPlan<Metadata, Payload, SuccessResult, F
 
         readonly reason: SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON.DEPENDENCY_INFINITE_LOOP;
         readonly dependency: string;
+    }
+    | {
+
+        readonly reason: SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON.RESOURCE_NOT_FOUND;
+        readonly resource: string;
     };
 
 export type SudoRPCExecutionPlan<Metadata, Payload, SuccessResult, FailResult> =
