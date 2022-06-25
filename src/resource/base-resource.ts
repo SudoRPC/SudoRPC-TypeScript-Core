@@ -4,10 +4,11 @@
  * @description Base Resource
  */
 
+import { SudoRPCBaseHandlerHelper } from "../handler/base-helper";
 import { SudoRPCHandlerContext } from "../handler/context";
 import { SudoRPCCall } from "../structure/call";
 
-export abstract class SudoRPCBaseResource<Metadata, Payload, SuccessResult, FailResult> {
+export abstract class SudoRPCBaseResource<Metadata, Payload> {
 
     protected readonly _resourceName: string;
 
@@ -53,4 +54,6 @@ export abstract class SudoRPCBaseResource<Metadata, Payload, SuccessResult, Fail
 
         return context;
     }
+
+    protected abstract _createHelper(call: SudoRPCCall<Metadata, Payload>): SudoRPCBaseHandlerHelper<Metadata, Payload>;
 }
