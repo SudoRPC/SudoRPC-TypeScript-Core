@@ -6,6 +6,18 @@
 
 import { AvailableResource, SudoRPCExecutionPlanStep, SUDORPC_PLAN_EXECUTE_STEP_REASON } from "./declare";
 
+export const PROCESS_MEDIUM_DEPENDENCY_NOT_FOUND_SYMBOL = Symbol('dependency-not-found');
+export const PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL = Symbol('infinity-loop');
+export const PROCESS_MEDIUM_RESOURCE_NOT_FOUND_SYMBOL = Symbol('resource-not-found');
+
+export const PROCESS_MEDIUM_SUCCEED_SYMBOL = Symbol('succeed');
+
+export type FulfillDependencySymbolResult =
+    | typeof PROCESS_MEDIUM_DEPENDENCY_NOT_FOUND_SYMBOL
+    | typeof PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL
+    | typeof PROCESS_MEDIUM_RESOURCE_NOT_FOUND_SYMBOL
+    | typeof PROCESS_MEDIUM_SUCCEED_SYMBOL;
+
 export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> {
 
     public static create<Metadata, Payload, SuccessResult, FailResult>(
@@ -36,7 +48,7 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
         return this._steps;
     }
 
-    public fulfill(resource: AvailableResource<Metadata, Payload, SuccessResult, FailResult>): boolean {
+    public fulfill(resource: AvailableResource<Metadata, Payload, SuccessResult, FailResult>): FulfillDependencySymbolResult {
 
         const visitedResources: Set<AvailableResource<Metadata, Payload, SuccessResult, FailResult>> = new Set();
         visitedResources.add(resource);
@@ -44,24 +56,25 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
         const dependencies: string[] = resource.dependencies;
         for (const dependency of dependencies) {
 
-            if (!this._fulfillDependency(dependency, visitedResources)) {
-                return false;
+            const result: FulfillDependencySymbolResult = this._fulfillDependency(dependency, visitedResources);
+            if (result !== PROCESS_MEDIUM_SUCCEED_SYMBOL) {
+                return result;
             }
         }
-        return true;
+        return PROCESS_MEDIUM_SUCCEED_SYMBOL;
     }
 
     private _fulfillDependency(
         dependency: string,
         visitedResources: Set<AvailableResource<Metadata, Payload, SuccessResult, FailResult>>,
-    ): boolean {
+    ): FulfillDependencySymbolResult {
 
         if (!this._satisfies.has(dependency)) {
-            return false;
+            return PROCESS_MEDIUM_DEPENDENCY_NOT_FOUND_SYMBOL;
         }
 
         if (this._fulfilledDependencies.has(dependency)) {
-            return true;
+            return PROCESS_MEDIUM_SUCCEED_SYMBOL;
         }
 
         const possibleFulfills: Set<AvailableResource<Metadata, Payload, SuccessResult, FailResult>> = this._satisfies.get(dependency)!;
@@ -77,8 +90,9 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
                 const dependencies: string[] = possibleFulfill.dependencies;
                 for (const dependency of dependencies) {
 
-                    if (!this._fulfillDependency(dependency, visitedResources)) {
-                        return false;
+                    const result: FulfillDependencySymbolResult = this._fulfillDependency(dependency, visitedResources);
+                    if (result !== PROCESS_MEDIUM_SUCCEED_SYMBOL) {
+                        return result;
                     }
                 }
             }
@@ -91,9 +105,9 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
                 resource: possibleFulfill,
             });
 
-            return true;
+            return PROCESS_MEDIUM_SUCCEED_SYMBOL;
         }
-        return false;
+        return PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL;
     }
 
     private _canExecute(resource: AvailableResource<Metadata, Payload, SuccessResult, FailResult>): boolean {
