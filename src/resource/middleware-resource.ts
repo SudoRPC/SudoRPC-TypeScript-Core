@@ -7,7 +7,7 @@
 import { SudoRPCMiddlewareResourceHandler } from "../handler/declare";
 import { SudoRPCBaseResource } from "./base-resource";
 
-export class SudoRPCMiddlewareResource<Metadata, Payload, FailResult> extends SudoRPCBaseResource {
+export class SudoRPCMiddlewareResource<Metadata, Payload, FailResult> extends SudoRPCBaseResource<Metadata, Payload, any, FailResult> {
 
     public static create<Metadata, Payload, FailResult>(
         resourceName: string,

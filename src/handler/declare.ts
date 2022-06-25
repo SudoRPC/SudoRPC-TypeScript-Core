@@ -4,7 +4,7 @@
  * @description Declare
  */
 
-import { SudoRPCHandlerContext } from "./context";
+import { SudoRPCResourceContext } from "../resource/context";
 import { SudoRPCEndpointHandlerHelper } from "./endpoint-helper";
 import { SudoRPCMiddlewareHandlerHelper } from "./middleware-helper";
 
@@ -24,7 +24,7 @@ export type SudoRPCEndpointResourceHandlerReturn<SuccessResult, FailResult> =
 
 export type SudoRPCEndpointResourceHandler<Metadata, Payload, SuccessResult, FailResult> =
     (
-        context: SudoRPCHandlerContext<Metadata, Payload>,
+        context: SudoRPCResourceContext<Metadata, Payload>,
         helper: SudoRPCEndpointHandlerHelper<Metadata, Payload, SuccessResult, FailResult>,
     ) => SudoRPCEndpointResourceHandlerReturn<SuccessResult, FailResult>;
 
@@ -43,6 +43,6 @@ export type SudoRPCMiddlewareResourceHandlerReturn<FailResult> =
 
 export type SudoRPCMiddlewareResourceHandler<Metadata, Payload, FailResult> =
     (
-        context: SudoRPCHandlerContext<Metadata, Payload>,
+        context: SudoRPCResourceContext<Metadata, Payload>,
         helper: SudoRPCMiddlewareHandlerHelper<Metadata, Payload, FailResult>,
     ) => SudoRPCMiddlewareResourceHandlerReturn<FailResult>;

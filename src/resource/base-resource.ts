@@ -4,7 +4,10 @@
  * @description Base Resource
  */
 
-export abstract class SudoRPCBaseResource {
+import { SudoRPCCall } from "../structure/call";
+import { SudoRPCResourceContext } from "./context";
+
+export abstract class SudoRPCBaseResource<Metadata, Payload, SuccessResult, FailResult> {
 
     protected readonly _resourceName: string;
 
@@ -41,5 +44,13 @@ export abstract class SudoRPCBaseResource {
 
     public addSatisfy(satisfy: string): void {
         this._satisfies.push(satisfy);
+    }
+
+    protected _createContext(call: SudoRPCCall<Metadata, Payload>): SudoRPCResourceContext<Metadata, Payload> {
+
+        const context: SudoRPCResourceContext<Metadata, Payload> =
+            SudoRPCResourceContext.create(call);
+
+        return context;
     }
 }

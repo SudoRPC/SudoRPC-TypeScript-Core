@@ -7,7 +7,7 @@
 import { SudoRPCEndpointResourceHandler } from "../handler/declare";
 import { SudoRPCBaseResource } from "./base-resource";
 
-export class SudoRPCEndpointResource<Metadata, Payload, SuccessResult, FailResult> extends SudoRPCBaseResource {
+export class SudoRPCEndpointResource<Metadata, Payload, SuccessResult, FailResult> extends SudoRPCBaseResource<Metadata, Payload, SuccessResult, FailResult> {
 
     public static createPrivate<Metadata, Payload, SuccessResult, FailResult>(
         resourceName: string,
