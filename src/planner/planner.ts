@@ -6,6 +6,7 @@
 
 import { SudoRPCCall } from "../structure/call";
 import { AvailableResource, SudoRPCExecutionPlan, SudoRPCExecutionPlanStep, SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON } from "./declare";
+import { SudoRPCPlannerProcessManager } from "./process-manager";
 
 export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
 
@@ -16,7 +17,7 @@ export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
     }
 
     private readonly _resources: Map<string, AvailableResource<Metadata, Payload, SuccessResult, FailResult>>;
-    private readonly _satisfies: Map<string, WeakSet<AvailableResource<Metadata, Payload, SuccessResult, FailResult>>>;
+    private readonly _satisfies: Map<string, Set<AvailableResource<Metadata, Payload, SuccessResult, FailResult>>>;
 
     private constructor() {
 
@@ -32,7 +33,7 @@ export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
         for (const satisfy of resource.satisfies) {
 
             if (!this._satisfies.has(satisfy)) {
-                this._satisfies.set(satisfy, new WeakSet());
+                this._satisfies.set(satisfy, new Set());
             }
             this._satisfies.get(satisfy)!.add(resource);
         }
@@ -50,7 +51,12 @@ export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
             };
         }
 
-        const dependencies: string[] = this._resources.get(targetResource)!.dependencies;
+        const processManager: SudoRPCPlannerProcessManager<Metadata, Payload, SuccessResult, FailResult> = SudoRPCPlannerProcessManager.create(
+            this._resources,
+            this._satisfies,
+        );
+
+
 
 
         return null as any;
