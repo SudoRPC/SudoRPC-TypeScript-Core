@@ -8,9 +8,9 @@
 import { expect } from "chai";
 import * as Chance from "chance";
 import { SudoRPCExecutionPlanStep, SudoRPCProcessMedium } from "../../../src";
-import { infinityLoopSatisfies, infinityLoopSatisfiesRoot } from "../../mock/depdencies/infinity-loop-satisfies";
-import { simpleSatisfies, simpleSatisfiesRoot } from "../../mock/depdencies/simple-satisfies";
-import { twoResourcesNeedOneSatisfies, twoResourcesNeedOneSatisfiesRoot } from "../../mock/depdencies/two-resource-need-one-satisfies";
+import { infinityLoopSatisfies, infinityLoopSatisfiesRoot } from "../../mock/dependencies/infinity-loop-satisfies";
+import { simpleSatisfies, simpleSatisfiesRoot } from "../../mock/dependencies/simple-satisfies";
+import { twoResourcesNeedOneSatisfies, twoResourcesNeedOneSatisfiesRoot } from "../../mock/dependencies/two-resource-need-one-satisfies";
 
 describe('Given {SudoRPCProcessMedium} Class', (): void => {
 
