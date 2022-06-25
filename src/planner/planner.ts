@@ -4,7 +4,8 @@
  * @description Planner
  */
 
-import { AvailableResource } from "./declare";
+import { SudoRPCCall } from "../structure/call";
+import { AvailableResource, SudoRPCExecutionPlan } from "./declare";
 
 export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
 
@@ -35,5 +36,10 @@ export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
             }
             this._satisfies.get(satisfy)!.add(resource);
         }
+    }
+
+    public plan(call: SudoRPCCall<Metadata, Payload>): SudoRPCExecutionPlan<Metadata, Payload, SuccessResult, FailResult> {
+
+        return null as any;
     }
 }
