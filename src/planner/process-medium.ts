@@ -48,7 +48,10 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
         return true;
     }
 
-    private _fulfillDependency(dependency: string): boolean {
+    private _fulfillDependency(
+        dependency: string,
+        visitedResources: Set<AvailableResource<Metadata, Payload, SuccessResult, FailResult>> = new Set(),
+    ): boolean {
 
         if (!this._satisfies.has(dependency)) {
             return false;
@@ -61,12 +64,17 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
         const possibleFulfills: Set<AvailableResource<Metadata, Payload, SuccessResult, FailResult>> = this._satisfies.get(dependency)!;
         for (const possibleFulfill of possibleFulfills) {
 
+            if (visitedResources.has(possibleFulfill)) {
+                continue;
+            }
+            visitedResources.add(possibleFulfill);
+
             if (!this._canExecute(possibleFulfill)) {
 
                 const dependencies: string[] = possibleFulfill.dependencies;
                 for (const dependency of dependencies) {
 
-                    if (!this._fulfillDependency(dependency)) {
+                    if (!this._fulfillDependency(dependency, visitedResources)) {
                         return false;
                     }
                 }

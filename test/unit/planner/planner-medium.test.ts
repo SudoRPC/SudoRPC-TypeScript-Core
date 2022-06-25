@@ -63,9 +63,6 @@ describe('Given {SudoRPCProcessMedium} Class', (): void => {
         const processMedium = SudoRPCProcessMedium.create(infinityLoopSatisfies);
         const result: boolean = processMedium.fulfill(infinityLoopSatisfiesRoot);
 
-        const steps: SudoRPCExecutionPlanStep<any, any, any, any>[] = processMedium.steps;
-
-        expect(result).to.be.true;
-        expect(steps).to.has.lengthOf(3);
+        expect(result).to.be.false;
     });
 });
