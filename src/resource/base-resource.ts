@@ -39,12 +39,16 @@ export abstract class SudoRPCBaseResource<Metadata, Payload> {
         return this._satisfies;
     }
 
-    public addDependency(dependency: string): void {
+    public addDependency(dependency: string): this {
+
         this._dependencies.push(dependency);
+        return this;
     }
 
-    public addSatisfy(satisfy: string): void {
+    public addSatisfy(satisfy: string): this {
+
         this._satisfies.push(satisfy);
+        return this;
     }
 
     protected _createContext(call: SudoRPCCall<Metadata, Payload>): SudoRPCHandlerContext<Metadata, Payload> {
