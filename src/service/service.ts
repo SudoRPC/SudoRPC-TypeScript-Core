@@ -9,6 +9,10 @@ import { SudoRPCPlanner } from "../planner/planner";
 import { SudoRPCCall } from "../structure/call";
 import { SudoRPCReturn } from "../structure/return";
 
+export type SudoRPCServiceMixin<Metadata, Payload, SuccessResult, FailResult> = (
+    service: SudoRPCService<Metadata, Payload, SuccessResult, FailResult>,
+) => void;
+
 export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> {
 
     public static create<Metadata, Payload, SuccessResult, FailResult>(
@@ -45,12 +49,24 @@ export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> {
         return this;
     }
 
+    public useMixin(
+        mixin: SudoRPCServiceMixin<Metadata, Payload, SuccessResult, FailResult>,
+    ): this {
+
+        mixin(this);
+        return this;
+    }
+
     public async execute(
         call: SudoRPCCall<Metadata, Payload>,
     ): Promise<SudoRPCReturn<SuccessResult, FailResult>> {
 
         const plan: SudoRPCExecutionPlan<Metadata, Payload, SuccessResult, FailResult>
             = this._planner.plan(call);
+
+        if (!plan.satisfiable) {
+
+        }
 
         return null as any;
     }
