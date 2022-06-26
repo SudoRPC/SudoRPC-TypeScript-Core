@@ -39,7 +39,9 @@ export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
         }
     }
 
-    public plan(call: SudoRPCCall<Metadata, Payload>): SudoRPCExecutionPlan<Metadata, Payload, SuccessResult, FailResult> {
+    public plan(
+        call: SudoRPCCall<Metadata, Payload>,
+    ): SudoRPCExecutionPlan<Metadata, Payload, SuccessResult, FailResult> {
 
         const targetResourceName: string = call.resource;
 
@@ -89,21 +91,5 @@ export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
             satisfiable: false,
             reason: SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON.UNKNOWN,
         };
-    }
-
-    private _findDependencySteps(
-        dependencies: string[],
-        satisfies: string[] = [],
-        steps: SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>[] = [],
-    ): SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>[] {
-
-        for (const dependency of dependencies) {
-
-            if (!this._satisfies.has(dependency)) {
-
-            }
-        }
-
-        return [];
     }
 }
