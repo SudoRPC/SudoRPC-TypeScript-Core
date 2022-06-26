@@ -6,6 +6,18 @@
 
 import { SudoRPCExecutionPlanStep } from "./declare";
 
+export const sudoRPCNoParallelOrganizeSteps = <Metadata, Payload, SuccessResult, FailResult>(
+    steps: Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>>,
+): Array<Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>>> => {
+
+    const result: Array<Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>>> = [];
+
+    for (const step of steps) {
+        result.push([step]);
+    }
+    return result;
+};
+
 export const sudoRPCOrganizeSteps = <Metadata, Payload, SuccessResult, FailResult>(
     steps: Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>>,
 ): Array<Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>>> => {
