@@ -9,6 +9,7 @@ import { SudoRPCPlanner } from "../planner/planner";
 import { SudoRPCCall } from "../structure/call";
 import { SudoRPCReturn } from "../structure/return";
 import { ISudoRPCService, SudoRPCServiceMixin } from "./declare";
+import { SudoRPCServiceErrorGenerator } from "./error/error-generator";
 
 export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> implements
     ISudoRPCService<Metadata, Payload, SuccessResult, FailResult> {
@@ -59,12 +60,15 @@ export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> implem
         call: SudoRPCCall<Metadata, Payload>,
     ): Promise<SudoRPCReturn<SuccessResult, FailResult>> {
 
+        const errorGenerator: SudoRPCServiceErrorGenerator<Metadata, Payload, SuccessResult, FailResult> =
+            SudoRPCServiceErrorGenerator.create<Metadata, Payload, SuccessResult, FailResult>(call);
+
         const plan: SudoRPCExecutionPlan<Metadata, Payload, SuccessResult, FailResult>
             = this._planner.plan(call);
 
         if (!plan.satisfiable) {
 
-            plan.reason
+            return errorGenerator.createExecutePlanNotSatisfiedInternalError(plan);
         }
 
         return null as any;

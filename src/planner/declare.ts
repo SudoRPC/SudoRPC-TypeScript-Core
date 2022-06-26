@@ -45,8 +45,7 @@ export enum SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON {
     UNKNOWN = 'UNKNOWN',
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export type SudoRPCExecutionNotSatisfiedPlan<Metadata, Payload, SuccessResult, FailResult> =
+export type SudoRPCExecutionNotSatisfiedPlan =
     | {
 
         readonly reason: SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON.DEPENDENCY_NOT_FOUND;
@@ -75,4 +74,4 @@ export type SudoRPCExecutionPlan<Metadata, Payload, SuccessResult, FailResult> =
     | ({
 
         readonly satisfiable: false;
-    } & SudoRPCExecutionNotSatisfiedPlan<Metadata, Payload, SuccessResult, FailResult>);
+    } & SudoRPCExecutionNotSatisfiedPlan);

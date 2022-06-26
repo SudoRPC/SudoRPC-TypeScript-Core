@@ -4,6 +4,7 @@
  * @description Error Generator
  */
 
+import { SudoRPCExecutionNotSatisfiedPlan, SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON } from "../../planner/declare";
 import { SudoRPCCall } from "../../structure/call";
 import { SudoRPCReturn } from "../../structure/return";
 
@@ -39,5 +40,34 @@ export class SudoRPCServiceErrorGenerator<Metadata, Payload, SuccessResult, Fail
             error,
             message,
         };
+    }
+
+    public createExecutePlanNotSatisfiedInternalError(
+        plan: SudoRPCExecutionNotSatisfiedPlan,
+    ): SudoRPCReturn<SuccessResult, FailResult> {
+
+        switch (plan.reason) {
+
+            case SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON.DEPENDENCY_NOT_FOUND:
+                return this.createInternalError(
+                    '[SudoRPC] Dependency Not Found',
+                    `Dependency ${plan.dependency} not found`,
+                );
+            case SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON.DEPENDENCY_INFINITE_LOOP:
+                return this.createInternalError(
+                    '[SudoRPC] Dependency Infinite Loop',
+                    `Dependency ${plan.dependency} is infinite loop`,
+                );
+            case SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON.RESOURCE_NOT_FOUND:
+                return this.createInternalError(
+                    '[SudoRPC] Resource Not Found',
+                    `Resource ${plan.resource} not found`,
+                );
+            case SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON.UNKNOWN:
+                return this.createInternalError(
+                    '[SudoRPC] Unknown',
+                    `Unknown`,
+                );
+        }
     }
 }
