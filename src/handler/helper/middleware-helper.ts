@@ -4,7 +4,7 @@
  * @description Middleware Helper
  */
 
-import { SudoRPCCall } from "../structure/call";
+import { SudoRPCCall } from "../../structure/call";
 import { SudoRPCBaseHandlerHelper } from "./base-helper";
 
 export class SudoRPCMiddlewareHandlerHelper<Metadata, Payload, FailResult> extends SudoRPCBaseHandlerHelper<Metadata, Payload> {

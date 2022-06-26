@@ -5,8 +5,8 @@
  */
 
 import { SudoRPCHandlerContext } from "./context";
-import { SudoRPCEndpointHandlerHelper } from "./endpoint-helper";
-import { SudoRPCMiddlewareHandlerHelper } from "./middleware-helper";
+import { SudoRPCEndpointHandlerHelper } from "./helper/endpoint-helper";
+import { SudoRPCMiddlewareHandlerHelper } from "./helper/middleware-helper";
 
 export type SudoRPCEndpointResourceHandlerReturnObject<SuccessResult, FailResult> = {
     readonly succeed: true;

@@ -4,7 +4,7 @@
  * @description Base Helper
  */
 
-import { SudoRPCCall } from "../structure/call";
+import { SudoRPCCall } from "../../structure/call";
 
 export abstract class SudoRPCBaseHandlerHelper<Metadata, Payload> {
 

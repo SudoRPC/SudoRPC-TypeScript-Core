@@ -4,7 +4,7 @@
  * @description Endpoint Helper
  */
 
-import { SudoRPCCall } from "../structure/call";
+import { SudoRPCCall } from "../../structure/call";
 import { SudoRPCBaseHandlerHelper } from "./base-helper";
 
 export class SudoRPCEndpointHandlerHelper<Metadata, Payload, SuccessResult, FailResult> extends SudoRPCBaseHandlerHelper<Metadata, Payload> {

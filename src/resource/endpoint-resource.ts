@@ -6,7 +6,7 @@
 
 import { SudoRPCHandlerContext } from "../handler/context";
 import { SudoRPCEndpointResourceHandler, SudoRPCEndpointResourceHandlerReturn } from "../handler/declare";
-import { SudoRPCEndpointHandlerHelper } from "../handler/endpoint-helper";
+import { SudoRPCEndpointHandlerHelper } from "../handler/helper/endpoint-helper";
 import { SudoRPCCall } from "../structure/call";
 import { SudoRPCBaseResource } from "./base-resource";
 

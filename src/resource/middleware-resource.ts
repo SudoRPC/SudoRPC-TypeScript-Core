@@ -6,7 +6,7 @@
 
 import { SudoRPCHandlerContext } from "../handler/context";
 import { SudoRPCMiddlewareResourceHandler, SudoRPCMiddlewareResourceHandlerReturn } from "../handler/declare";
-import { SudoRPCMiddlewareHandlerHelper } from "../handler/middleware-helper";
+import { SudoRPCMiddlewareHandlerHelper } from "../handler/helper/middleware-helper";
 import { SudoRPCCall } from "../structure/call";
 import { SudoRPCBaseResource } from "./base-resource";
 

@@ -4,7 +4,7 @@
  * @description Base Resource
  */
 
-import { SudoRPCBaseHandlerHelper } from "../handler/base-helper";
+import { SudoRPCBaseHandlerHelper } from "../handler/helper/base-helper";
 import { SudoRPCHandlerContext } from "../handler/context";
 import { SudoRPCCall } from "../structure/call";
 
