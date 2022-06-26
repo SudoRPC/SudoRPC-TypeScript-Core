@@ -50,12 +50,12 @@ export class SudoRPCHandlerContext<Metadata, Payload> {
         return this;
     }
 
-    public getDefaultContext(key: string): any {
+    public getDefaultContext<T = any>(key: string): T {
 
         return this.getContext(DEFAULT_NAMESPACE_SYMBOL, key);
     }
 
-    public getContext(namespace: symbol | string, key: string): any {
+    public getContext<T = any>(namespace: symbol | string, key: string): T {
 
         const contextMap = this._getNamespaceMap(namespace);
         return contextMap.get(key);
