@@ -7,6 +7,7 @@
 import { SudoRPCExecutionNotSatisfiedPlan, SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON } from "../../planner/declare";
 import { SudoRPCCall } from "../../structure/call";
 import { SudoRPCReturn } from "../../structure/return";
+import { ErrorGeneratorCreateErrorOption, ErrorGeneratorCreateInternalErrorOption } from "./declare";
 
 export class SudoRPCServiceErrorGenerator<Metadata, Payload, SuccessResult, FailResult> {
 
@@ -27,35 +28,40 @@ export class SudoRPCServiceErrorGenerator<Metadata, Payload, SuccessResult, Fail
         this._call = call;
     }
 
-    public createError(
-        error: string,
-        message: string,
-        result: FailResult,
+    public createErrors(
+        errorOptions: Array<ErrorGeneratorCreateErrorOption<FailResult>>,
     ): SudoRPCReturn<SuccessResult, FailResult> {
 
         return {
             version: '1.0',
             identifier: this._call.identifier,
             success: false,
-            isInternalError: false,
-            error,
-            message,
-            result,
+            errors: errorOptions.map((option) => {
+                return {
+                    isInternalError: false,
+                    error: option.error,
+                    message: option.message,
+                    result: option.result,
+                };
+            }),
         };
     }
 
-    public createInternalError(
-        error: string,
-        message: string,
+    public createInternalErrors(
+        errorOptions: ErrorGeneratorCreateInternalErrorOption[],
     ): SudoRPCReturn<SuccessResult, FailResult> {
 
         return {
             version: '1.0',
             identifier: this._call.identifier,
             success: false,
-            isInternalError: true,
-            error,
-            message,
+            errors: errorOptions.map((option) => {
+                return {
+                    isInternalError: true,
+                    error: option.error,
+                    message: option.message,
+                };
+            }),
         };
     }
 
@@ -66,25 +72,25 @@ export class SudoRPCServiceErrorGenerator<Metadata, Payload, SuccessResult, Fail
         switch (plan.reason) {
 
             case SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON.DEPENDENCY_NOT_FOUND:
-                return this.createInternalError(
-                    '[SudoRPC] Dependency Not Found',
-                    `Dependency ${plan.dependency} not found`,
-                );
+                return this.createInternalErrors([{
+                    error: '[SudoRPC] Dependency Not Found',
+                    message: `Dependency ${plan.dependency} not found`,
+                }]);
             case SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON.DEPENDENCY_INFINITE_LOOP:
-                return this.createInternalError(
-                    '[SudoRPC] Dependency Infinite Loop',
-                    `Dependency ${plan.dependency} is infinite loop`,
-                );
+                return this.createInternalErrors([{
+                    error: '[SudoRPC] Dependency Infinite Loop',
+                    message: `Dependency ${plan.dependency} is infinite loop`,
+                }]);
             case SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON.RESOURCE_NOT_FOUND:
-                return this.createInternalError(
-                    '[SudoRPC] Resource Not Found',
-                    `Resource ${plan.resource} not found`,
-                );
+                return this.createInternalErrors([{
+                    error: '[SudoRPC] Resource Not Found',
+                    message: `Resource ${plan.resource} not found`,
+                }]);
             case SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON.UNKNOWN:
-                return this.createInternalError(
-                    '[SudoRPC] Unknown',
-                    `Unknown`,
-                );
+                return this.createInternalErrors([{
+                    error: '[SudoRPC] Unknown',
+                    message: `Unknown`,
+                }]);
         }
     }
 }

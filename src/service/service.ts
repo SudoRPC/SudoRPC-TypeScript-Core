@@ -100,14 +100,15 @@ export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> implem
 
             if (stepsResult.length !== 0) {
 
-                const firstResult: SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject<FailResult> =
-                    stepsResult[0];
-
-                return errorGenerator.createError(
-                    firstResult.error,
-                    firstResult.message,
-                    firstResult.result,
-                );
+                return errorGenerator.createErrors(stepsResult.map((
+                    item: SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject<FailResult>,
+                ) => {
+                    return {
+                        error: item.error,
+                        message: item.message,
+                        result: item.result,
+                    };
+                }));
             }
         }
 

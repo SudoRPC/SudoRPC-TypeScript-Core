@@ -29,11 +29,15 @@ export type SudoRPCReturnV1Success<SuccessResult> = {
 };
 
 export type SudoRPCReturnV1Error<FailResult> = {
+
     readonly success: false;
-} & (
-        | SudoRPCReturnV1Fail<FailResult>
-        | SudoRPCReturnV1InternalError
-    );
+
+    readonly errors: Array<SudoRPCReturnV1ErrorItem<FailResult>>;
+}
+
+export type SudoRPCReturnV1ErrorItem<FailResult> =
+    | SudoRPCReturnV1Fail<FailResult>
+    | SudoRPCReturnV1InternalError
 
 export type SudoRPCError = {
 
