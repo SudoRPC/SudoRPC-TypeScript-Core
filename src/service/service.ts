@@ -64,6 +64,7 @@ export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> implem
 
         if (!plan.satisfiable) {
 
+            plan.reason
         }
 
         return null as any;

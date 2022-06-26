@@ -11,7 +11,7 @@ export type SudoRPCReturnV1<SuccessResult, FailResult> =
     SudoRPCReturnV1Base
     & (
         | SudoRPCReturnV1Success<SuccessResult>
-        | SudoRPCReturnV1Fail<FailResult>
+        | SudoRPCReturnV1Error<FailResult>
     );
 
 export type SudoRPCReturnV1Base = {
@@ -28,6 +28,13 @@ export type SudoRPCReturnV1Success<SuccessResult> = {
     readonly result: SuccessResult;
 };
 
+export type SudoRPCReturnV1Error<FailResult> = {
+    readonly success: false;
+} & (
+        | SudoRPCReturnV1Fail<FailResult>
+        | SudoRPCReturnV1InternalError
+    );
+
 export type SudoRPCError = {
 
     readonly error: string;
@@ -36,7 +43,12 @@ export type SudoRPCError = {
 
 export type SudoRPCReturnV1Fail<FailResult> = {
 
-    readonly success: false;
+    readonly isInternalError: false;
 
     readonly result: FailResult;
+} & SudoRPCError;
+
+export type SudoRPCReturnV1InternalError = {
+
+    readonly isInternalError: true;
 } & SudoRPCError;
