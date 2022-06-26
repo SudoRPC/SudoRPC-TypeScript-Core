@@ -28,7 +28,7 @@ describe('Given [Organize-Steps] Helper Functions', (): void => {
 
         const organizedSteps: Array<Array<SudoRPCExecutionPlanStep<any, any, any, any>>> = sudoRPCOrganizeSteps(appendedSteps);
 
-        expect(result.succeed).to.be.true;
+        expect(result.success).to.be.true;
         expect(organizedSteps).to.has.lengthOf(3);
         expect(organizedSteps[0]).to.has.lengthOf(1);
         expect(organizedSteps[1]).to.has.lengthOf(1);
@@ -45,7 +45,7 @@ describe('Given [Organize-Steps] Helper Functions', (): void => {
 
         const organizedSteps: Array<Array<SudoRPCExecutionPlanStep<any, any, any, any>>> = sudoRPCOrganizeSteps(appendedSteps);
 
-        expect(result.succeed).to.be.true;
+        expect(result.success).to.be.true;
         expect(organizedSteps).to.has.lengthOf(3);
         expect(organizedSteps[0]).to.has.lengthOf(2);
         expect(organizedSteps[1]).to.has.lengthOf(1);
@@ -62,7 +62,7 @@ describe('Given [Organize-Steps] Helper Functions', (): void => {
 
         const organizedSteps: Array<Array<SudoRPCExecutionPlanStep<any, any, any, any>>> = sudoRPCOrganizeSteps(appendedSteps);
 
-        expect(result.succeed).to.be.true;
+        expect(result.success).to.be.true;
         expect(organizedSteps).to.has.lengthOf(5);
         expect(organizedSteps[0]).to.has.lengthOf(2);
         expect(organizedSteps[1]).to.has.lengthOf(2);
@@ -81,7 +81,7 @@ describe('Given [Organize-Steps] Helper Functions', (): void => {
 
         const organizedSteps: Array<Array<SudoRPCExecutionPlanStep<any, any, any, any>>> = sudoRPCNoParallelOrganizeSteps(appendedSteps);
 
-        expect(result.succeed).to.be.true;
+        expect(result.success).to.be.true;
         expect(organizedSteps).to.has.lengthOf(7);
         expect(organizedSteps[0]).to.has.lengthOf(1);
         expect(organizedSteps[1]).to.has.lengthOf(1);

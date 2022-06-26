@@ -1,5 +1,7 @@
 /**
  * @author WMXPY
- * @namespace Util
+ * @namespace Service_Error
  * @description Error
  */
+
+

@@ -9,10 +9,10 @@ import { SudoRPCEndpointHandlerHelper } from "./helper/endpoint-helper";
 import { SudoRPCMiddlewareHandlerHelper } from "./helper/middleware-helper";
 
 export type SudoRPCEndpointResourceHandlerReturnObject<SuccessResult, FailResult> = {
-    readonly succeed: true;
+    readonly success: true;
     readonly result: SuccessResult;
 } | {
-    readonly succeed: false;
+    readonly success: false;
     readonly error: string;
     readonly message: string;
     readonly result: FailResult;

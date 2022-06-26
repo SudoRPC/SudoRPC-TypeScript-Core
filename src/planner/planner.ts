@@ -66,7 +66,7 @@ export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
 
         const result: FulfillDependencySymbolResult = medium.fulfill(targetResource);
 
-        if (result.succeed) {
+        if (result.success) {
 
             const steps: Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>> = sudoRPCAppendCallStep(
                 medium.steps,

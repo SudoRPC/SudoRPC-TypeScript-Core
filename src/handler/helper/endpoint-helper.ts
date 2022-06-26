@@ -1,6 +1,6 @@
 /**
  * @author WMXPY
- * @namespace Handler
+ * @namespace Handler_Helper
  * @description Endpoint Helper
  */
 
@@ -29,7 +29,7 @@ export class SudoRPCEndpointHandlerHelper<Metadata, Payload, SuccessResult, Fail
     ): SudoRPCEndpointResourceHandlerReturnObject<SuccessResult, FailResult> {
 
         return {
-            succeed: true,
+            success: true,
             result,
         };
     }
@@ -41,7 +41,7 @@ export class SudoRPCEndpointHandlerHelper<Metadata, Payload, SuccessResult, Fail
     ): SudoRPCEndpointResourceHandlerReturnObject<SuccessResult, FailResult> {
 
         return {
-            succeed: false,
+            success: false,
             error,
             message,
             result: failResult,

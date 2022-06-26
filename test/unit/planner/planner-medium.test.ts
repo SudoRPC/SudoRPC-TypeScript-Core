@@ -32,7 +32,7 @@ describe('Given {SudoRPCProcessMedium} Class', (): void => {
 
         const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = processMedium.steps;
 
-        expect(result.succeed).to.be.true;
+        expect(result.success).to.be.true;
         expect(steps).to.has.lengthOf(2);
     });
 
@@ -44,8 +44,8 @@ describe('Given {SudoRPCProcessMedium} Class', (): void => {
 
         const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = processMedium.steps;
 
-        expect(result1.succeed).to.be.true;
-        expect(result2.succeed).to.be.true;
+        expect(result1.success).to.be.true;
+        expect(result2.success).to.be.true;
         expect(steps).to.has.lengthOf(2);
     });
 
@@ -56,7 +56,7 @@ describe('Given {SudoRPCProcessMedium} Class', (): void => {
 
         const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = processMedium.steps;
 
-        expect(result.succeed).to.be.true;
+        expect(result.success).to.be.true;
         expect(steps).to.has.lengthOf(3);
     });
 
@@ -67,7 +67,7 @@ describe('Given {SudoRPCProcessMedium} Class', (): void => {
 
         const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = processMedium.steps;
 
-        expect(result.succeed).to.be.true;
+        expect(result.success).to.be.true;
         expect(steps).to.has.lengthOf(6);
     });
 
@@ -78,7 +78,7 @@ describe('Given {SudoRPCProcessMedium} Class', (): void => {
 
         expect(result).to.be.deep.equal({
 
-            succeed: false,
+            success: false,
             result: PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL,
             payload: {
                 dependency: 'dep1',

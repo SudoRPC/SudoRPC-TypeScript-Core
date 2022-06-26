@@ -12,10 +12,10 @@ export const PROCESS_MEDIUM_RESOURCE_NOT_FOUND_SYMBOL = Symbol('resource-not-fou
 
 export type FulfillDependencySymbolResult = {
 
-    readonly succeed: true;
+    readonly success: true;
 } | {
 
-    readonly succeed: false;
+    readonly success: false;
 
     readonly result:
     | typeof PROCESS_MEDIUM_DEPENDENCY_NOT_FOUND_SYMBOL
@@ -66,13 +66,13 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
         for (const dependency of dependencies) {
 
             const result: FulfillDependencySymbolResult = this._fulfillDependency(dependency, visitedResources);
-            if (!result.succeed) {
+            if (!result.success) {
                 return result;
             }
         }
 
         return {
-            succeed: true,
+            success: true,
         };
     }
 
@@ -84,7 +84,7 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
         if (!this._satisfies.has(dependency)) {
 
             return {
-                succeed: false,
+                success: false,
                 result: PROCESS_MEDIUM_DEPENDENCY_NOT_FOUND_SYMBOL,
                 payload: {
                     dependency,
@@ -95,7 +95,7 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
         if (this._fulfilledDependencies.has(dependency)) {
 
             return {
-                succeed: true,
+                success: true,
             };
         }
 
@@ -116,7 +116,7 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
 
                     const result: FulfillDependencySymbolResult =
                         this._fulfillDependency(eachDependency, visitedResources);
-                    if (!result.succeed) {
+                    if (!result.success) {
                         return result;
                     }
                 }
@@ -131,12 +131,12 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
             });
 
             return {
-                succeed: true,
+                success: true,
             };
         }
 
         return {
-            succeed: false,
+            success: false,
             result: PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL,
             payload: {
                 dependency,
