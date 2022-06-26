@@ -11,6 +11,7 @@ import { FulfillDependencySymbolResult, PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL, Sud
 import { infinityLoopSatisfies, infinityLoopSatisfiesRoot } from "../../mock/dependencies/infinity-loop-satisfies";
 import { simpleSatisfies, simpleSatisfiesRoot } from "../../mock/dependencies/simple-satisfies";
 import { twoResourcesNeedOneSatisfies, twoResourcesNeedOneSatisfiesRoot } from "../../mock/dependencies/two-resource-need-one-satisfies";
+import { twoResourcesNeedOneSatisfiesChain, twoResourcesNeedOneSatisfiesChainRoot } from "../../mock/dependencies/two-resource-need-one-satisfies-chain";
 
 describe('Given {SudoRPCProcessMedium} Class', (): void => {
 
@@ -56,6 +57,17 @@ describe('Given {SudoRPCProcessMedium} Class', (): void => {
 
         expect(result.succeed).to.be.true;
         expect(steps).to.has.lengthOf(3);
+    });
+
+    it('should be able to resolve two resources need one dependencies chain', (): void => {
+
+        const processMedium = SudoRPCProcessMedium.create(twoResourcesNeedOneSatisfiesChain);
+        const result: FulfillDependencySymbolResult = processMedium.fulfill(twoResourcesNeedOneSatisfiesChainRoot);
+
+        const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = processMedium.steps;
+
+        expect(result.succeed).to.be.true;
+        expect(steps).to.has.lengthOf(5);
     });
 
     it('should be able to reject infinity loop dependencies', (): void => {
