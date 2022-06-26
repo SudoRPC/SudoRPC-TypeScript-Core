@@ -10,6 +10,7 @@ export * from "./handler/declare";
 export * from "./handler/endpoint-helper";
 export * from "./handler/middleware-helper";
 export * from "./planner/declare";
+export * from "./planner/organize-step";
 export * from "./planner/planner";
 export * from "./planner/process-medium";
 export * from "./resource/base-resource";
