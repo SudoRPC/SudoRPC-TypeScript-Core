@@ -37,7 +37,7 @@ describe('Given {SudoRPCPlanner} Class', (): void => {
             .register(dep1)
             .register(dep2);
 
-        const result: SudoRPCExecutionPlan<any, any, any, any> = planner.plan({
+        const result: SudoRPCExecutionPlan<any, any, any, any> = planner.planDependencies({
 
             version: '1.0',
 
@@ -59,9 +59,6 @@ describe('Given {SudoRPCPlanner} Class', (): void => {
                 reason: SUDORPC_PLAN_EXECUTE_STEP_REASON.DEPENDENCY,
                 dependencyOf: 'dep1',
                 resource: dep1,
-            }, {
-                reason: SUDORPC_PLAN_EXECUTE_STEP_REASON.CALL,
-                resource: root,
             }],
         });
     });
@@ -88,7 +85,7 @@ describe('Given {SudoRPCPlanner} Class', (): void => {
             .register(dep2)
             .register(dep3);
 
-        const result: SudoRPCExecutionPlan<any, any, any, any> = planner.plan({
+        const result: SudoRPCExecutionPlan<any, any, any, any> = planner.planDependencies({
 
             version: '1.0',
 
@@ -114,9 +111,6 @@ describe('Given {SudoRPCPlanner} Class', (): void => {
                 reason: SUDORPC_PLAN_EXECUTE_STEP_REASON.DEPENDENCY,
                 dependencyOf: 'dep1',
                 resource: dep1,
-            }, {
-                reason: SUDORPC_PLAN_EXECUTE_STEP_REASON.CALL,
-                resource: root,
             }],
         });
     });

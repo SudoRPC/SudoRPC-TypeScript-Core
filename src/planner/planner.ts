@@ -5,7 +5,6 @@
  */
 
 import { SudoRPCCall } from "../structure/call";
-import { sudoRPCAppendCallStep } from "./append-step";
 import { AvailableResource, SudoRPCExecutionPlan, SudoRPCExecutionPlanStep, SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON } from "./declare";
 import { FulfillDependencySymbolResult, PROCESS_MEDIUM_DEPENDENCY_NOT_FOUND_SYMBOL, SudoRPCProcessMedium } from "./process-medium";
 
@@ -45,7 +44,7 @@ export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
         return this;
     }
 
-    public plan(
+    public planDependencies(
         call: SudoRPCCall<Metadata, Payload>,
     ): SudoRPCExecutionPlan<Metadata, Payload, SuccessResult, FailResult> {
 
@@ -68,10 +67,7 @@ export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
 
         if (result.success) {
 
-            const steps: Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>> = sudoRPCAppendCallStep(
-                medium.steps,
-                targetResource,
-            );
+            const steps: Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>> = medium.steps;
 
             return {
                 satisfiable: true,

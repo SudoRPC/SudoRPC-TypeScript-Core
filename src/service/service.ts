@@ -75,7 +75,7 @@ export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> implem
             SudoRPCServiceErrorGenerator.create<Metadata, Payload, SuccessResult, FailResult>(call);
 
         const plan: SudoRPCExecutionPlan<Metadata, Payload, SuccessResult, FailResult>
-            = this._planner.plan(call);
+            = this._planner.planDependencies(call);
 
         if (!plan.satisfiable) {
             return errorGenerator.createExecutePlanNotSatisfiedInternalError(plan);
