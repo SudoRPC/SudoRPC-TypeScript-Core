@@ -10,5 +10,45 @@ export const sudoRPCOrganizeSteps = <Metadata, Payload, SuccessResult, FailResul
     steps: Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>>,
 ): Array<Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>>> => {
 
-    return [];
+    const result: Array<Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>>> = [];
+
+    const resolvedDependencies: string[] = [];
+    let currentSteps: Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>> = steps;
+
+    const iteration = () => {
+
+        const iterationSteps: Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>> = [];
+        const nextSteps: Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>> = [];
+
+        step: for (const step of currentSteps) {
+
+            const dependencies: string[] = step.resource.dependencies;
+            for (const dependency of dependencies) {
+
+                if (!resolvedDependencies.includes(dependency)) {
+                    nextSteps.push(step);
+                    continue step;
+                }
+            }
+
+            iterationSteps.push(step);
+        }
+
+        if (iterationSteps.length === 0) {
+            throw new Error('Failed to organize steps');
+        }
+
+        result.push(iterationSteps);
+        currentSteps = nextSteps;
+
+        for (const step of iterationSteps) {
+            resolvedDependencies.push(...step.resource.satisfies);
+        }
+    };
+
+    while (currentSteps.length > 0) {
+        iteration();
+    }
+
+    return result;
 };
