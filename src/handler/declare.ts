@@ -29,9 +29,9 @@ export type SudoRPCEndpointResourceHandler<Metadata, Payload, SuccessResult, Fai
     ) => SudoRPCEndpointResourceHandlerReturn<SuccessResult, FailResult>;
 
 export type SudoRPCMiddlewareResourceHandlerReturnObject<FailResult> = {
-    readonly shouldNext: true;
+    readonly shouldContinue: true;
 } | {
-    readonly shouldNext: false;
+    readonly shouldContinue: false;
     readonly error: string;
     readonly message: string;
     readonly result: FailResult;

@@ -5,6 +5,7 @@
  */
 
 import { SudoRPCCall } from "../../structure/call";
+import { SudoRPCEndpointResourceHandlerReturnObject } from "../declare";
 import { SudoRPCBaseHandlerHelper } from "./base-helper";
 
 export class SudoRPCEndpointHandlerHelper<Metadata, Payload, SuccessResult, FailResult> extends SudoRPCBaseHandlerHelper<Metadata, Payload> {
@@ -21,5 +22,29 @@ export class SudoRPCEndpointHandlerHelper<Metadata, Payload, SuccessResult, Fail
     ) {
 
         super(call);
+    }
+
+    public createSuccessReturn(
+        result: SuccessResult,
+    ): SudoRPCEndpointResourceHandlerReturnObject<SuccessResult, FailResult> {
+
+        return {
+            succeed: true,
+            result,
+        };
+    }
+
+    public createFailReturn(
+        error: string,
+        message: string,
+        failResult: FailResult,
+    ): SudoRPCEndpointResourceHandlerReturnObject<SuccessResult, FailResult> {
+
+        return {
+            succeed: false,
+            error,
+            message,
+            result: failResult,
+        };
     }
 }

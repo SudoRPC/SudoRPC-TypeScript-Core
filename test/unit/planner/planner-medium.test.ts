@@ -15,6 +15,7 @@ import { twoResourcesNeedOneSatisfiesChain, twoResourcesNeedOneSatisfiesChainRoo
 
 describe('Given {SudoRPCProcessMedium} Class', (): void => {
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const chance: Chance.Chance = new Chance('planner-process-medium');
 
     it('should be able to construct', (): void => {

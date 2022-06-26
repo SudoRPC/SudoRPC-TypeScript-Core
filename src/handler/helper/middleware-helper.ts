@@ -5,6 +5,7 @@
  */
 
 import { SudoRPCCall } from "../../structure/call";
+import { SudoRPCMiddlewareResourceHandlerReturnObject } from "../declare";
 import { SudoRPCBaseHandlerHelper } from "./base-helper";
 
 export class SudoRPCMiddlewareHandlerHelper<Metadata, Payload, FailResult> extends SudoRPCBaseHandlerHelper<Metadata, Payload> {
@@ -21,5 +22,26 @@ export class SudoRPCMiddlewareHandlerHelper<Metadata, Payload, FailResult> exten
     ) {
 
         super(call);
+    }
+
+    public createShouldContinueReturn(): SudoRPCMiddlewareResourceHandlerReturnObject<FailResult> {
+
+        return {
+            shouldContinue: true,
+        };
+    }
+
+    public createShouldAbortReturn(
+        error: string,
+        message: string,
+        failResult: FailResult,
+    ): SudoRPCMiddlewareResourceHandlerReturnObject<FailResult> {
+
+        return {
+            shouldContinue: false,
+            error,
+            message,
+            result: failResult,
+        };
     }
 }
