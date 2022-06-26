@@ -27,7 +27,7 @@ export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
 
     public register(
         resource: AvailableResource<Metadata, Payload, SuccessResult, FailResult>,
-    ): void {
+    ): this {
 
         this._resources.set(resource.resourceName, resource);
         for (const satisfy of resource.satisfies) {
@@ -37,6 +37,8 @@ export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
             }
             this._satisfies.get(satisfy)!.add(resource);
         }
+
+        return this;
     }
 
     public plan(
@@ -62,11 +64,11 @@ export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
         if (result.succeed) {
 
             const steps: SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>[] = [
+                ...medium.steps,
                 {
                     reason: SUDORPC_PLAN_EXECUTE_STEP_REASON.CALL,
                     resource: targetResource,
                 },
-                ...medium.steps,
             ];
 
             return {
