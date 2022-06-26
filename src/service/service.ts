@@ -4,7 +4,7 @@
  * @description Service
  */
 
-import { AvailableResource } from "../planner/declare";
+import { AvailableResource, SudoRPCExecutionPlan } from "../planner/declare";
 import { SudoRPCPlanner } from "../planner/planner";
 import { SudoRPCCall } from "../structure/call";
 import { SudoRPCReturn } from "../structure/return";
@@ -48,6 +48,9 @@ export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> {
     public async execute(
         call: SudoRPCCall<Metadata, Payload>,
     ): Promise<SudoRPCReturn<SuccessResult, FailResult>> {
+
+        const plan: SudoRPCExecutionPlan<Metadata, Payload, SuccessResult, FailResult>
+            = this._planner.plan(call);
 
         return null as any;
     }

@@ -41,7 +41,9 @@ export class SudoRPCMiddlewareResource<Metadata, Payload, FailResult> extends Su
         this._handler = handler;
     }
 
-    public execute(call: SudoRPCCall<Metadata, Payload>): SudoRPCMiddlewareResourceHandlerReturn<FailResult> {
+    public execute(
+        call: SudoRPCCall<Metadata, Payload>,
+    ): SudoRPCMiddlewareResourceHandlerReturn<FailResult> {
 
         const context: SudoRPCHandlerContext<Metadata, Payload> =
             this._createContext(call);
@@ -52,7 +54,9 @@ export class SudoRPCMiddlewareResource<Metadata, Payload, FailResult> extends Su
         return this._handler(context, helper);
     }
 
-    protected _createHelper(call: SudoRPCCall<Metadata, Payload>): SudoRPCMiddlewareHandlerHelper<Metadata, Payload, FailResult> {
+    protected _createHelper(
+        call: SudoRPCCall<Metadata, Payload>,
+    ): SudoRPCMiddlewareHandlerHelper<Metadata, Payload, FailResult> {
 
         const helper: SudoRPCMiddlewareHandlerHelper<Metadata, Payload, FailResult> =
             SudoRPCMiddlewareHandlerHelper.create(call);

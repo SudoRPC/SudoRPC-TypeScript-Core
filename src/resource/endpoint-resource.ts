@@ -67,7 +67,9 @@ export class SudoRPCEndpointResource<Metadata, Payload, SuccessResult, FailResul
         return this._exposed;
     }
 
-    public execute(call: SudoRPCCall<Metadata, Payload>): SudoRPCEndpointResourceHandlerReturn<SuccessResult, FailResult> {
+    public execute(
+        call: SudoRPCCall<Metadata, Payload>,
+    ): SudoRPCEndpointResourceHandlerReturn<SuccessResult, FailResult> {
 
         const context: SudoRPCHandlerContext<Metadata, Payload> =
             this._createContext(call);
@@ -78,7 +80,9 @@ export class SudoRPCEndpointResource<Metadata, Payload, SuccessResult, FailResul
         return this._handler(context, helper);
     }
 
-    protected _createHelper(call: SudoRPCCall<Metadata, Payload>): SudoRPCEndpointHandlerHelper<Metadata, Payload, SuccessResult, FailResult> {
+    protected _createHelper(
+        call: SudoRPCCall<Metadata, Payload>,
+    ): SudoRPCEndpointHandlerHelper<Metadata, Payload, SuccessResult, FailResult> {
 
         const helper: SudoRPCEndpointHandlerHelper<Metadata, Payload, SuccessResult, FailResult> =
             SudoRPCEndpointHandlerHelper.create(call);

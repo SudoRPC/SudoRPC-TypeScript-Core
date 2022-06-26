@@ -84,7 +84,6 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
         if (!this._satisfies.has(dependency)) {
 
             return {
-
                 succeed: false,
                 result: PROCESS_MEDIUM_DEPENDENCY_NOT_FOUND_SYMBOL,
                 payload: {
@@ -130,13 +129,11 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
             });
 
             return {
-
                 succeed: true,
             };
         }
 
         return {
-
             succeed: false,
             result: PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL,
             payload: {
