@@ -7,8 +7,8 @@
 
 import { expect } from "chai";
 import * as Chance from "chance";
-import { FulfillDependencySymbolResult, PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL, SudoRPCExecutionPlanStep, sudoRPCOrganizeSteps, SudoRPCProcessMedium } from "../../../src";
-import { infinityLoopSatisfies, infinityLoopSatisfiesRoot } from "../../mock/dependencies/infinity-loop-satisfies";
+import { FulfillDependencySymbolResult, SudoRPCExecutionPlanStep, sudoRPCOrganizeSteps, SudoRPCProcessMedium } from "../../../src";
+import { sudoRPCAppendCallStep } from "../../../src/planner/append-step";
 import { simpleSatisfies, simpleSatisfiesRoot } from "../../mock/dependencies/simple-satisfies";
 import { twoResourcesNeedOneSatisfies, twoResourcesNeedOneSatisfiesRoot } from "../../mock/dependencies/two-resource-need-one-satisfies";
 import { twoResourcesNeedOneSatisfiesChain, twoResourcesNeedOneSatisfiesChainRoot } from "../../mock/dependencies/two-resource-need-one-satisfies-chain";
@@ -23,12 +23,15 @@ describe('Given [Organize-Steps] Helper Functions', (): void => {
         const result: FulfillDependencySymbolResult = processMedium.fulfill(simpleSatisfiesRoot);
 
         const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = processMedium.steps;
-        const organizedSteps: Array<Array<SudoRPCExecutionPlanStep<any, any, any, any>>> = sudoRPCOrganizeSteps(steps);
+        const appendedSteps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = sudoRPCAppendCallStep(steps, simpleSatisfiesRoot);
+
+        const organizedSteps: Array<Array<SudoRPCExecutionPlanStep<any, any, any, any>>> = sudoRPCOrganizeSteps(appendedSteps);
 
         expect(result.succeed).to.be.true;
-        expect(organizedSteps).to.has.lengthOf(2);
+        expect(organizedSteps).to.has.lengthOf(3);
         expect(organizedSteps[0]).to.has.lengthOf(1);
         expect(organizedSteps[1]).to.has.lengthOf(1);
+        expect(organizedSteps[2]).to.has.lengthOf(1);
     });
 
     it('should be able to organize two resources need one dependencies', (): void => {
@@ -37,12 +40,15 @@ describe('Given [Organize-Steps] Helper Functions', (): void => {
         const result: FulfillDependencySymbolResult = processMedium.fulfill(twoResourcesNeedOneSatisfiesRoot);
 
         const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = processMedium.steps;
-        const organizedSteps: Array<Array<SudoRPCExecutionPlanStep<any, any, any, any>>> = sudoRPCOrganizeSteps(steps);
+        const appendedSteps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = sudoRPCAppendCallStep(steps, twoResourcesNeedOneSatisfiesRoot);
+
+        const organizedSteps: Array<Array<SudoRPCExecutionPlanStep<any, any, any, any>>> = sudoRPCOrganizeSteps(appendedSteps);
 
         expect(result.succeed).to.be.true;
-        expect(organizedSteps).to.has.lengthOf(2);
+        expect(organizedSteps).to.has.lengthOf(3);
         expect(organizedSteps[0]).to.has.lengthOf(2);
         expect(organizedSteps[1]).to.has.lengthOf(1);
+        expect(organizedSteps[2]).to.has.lengthOf(1);
     });
 
     it('should be able to organize two resources need one dependencies chain', (): void => {
@@ -51,13 +57,16 @@ describe('Given [Organize-Steps] Helper Functions', (): void => {
         const result: FulfillDependencySymbolResult = processMedium.fulfill(twoResourcesNeedOneSatisfiesChainRoot);
 
         const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = processMedium.steps;
-        const organizedSteps: Array<Array<SudoRPCExecutionPlanStep<any, any, any, any>>> = sudoRPCOrganizeSteps(steps);
+        const appendedSteps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = sudoRPCAppendCallStep(steps, twoResourcesNeedOneSatisfiesChainRoot);
+
+        const organizedSteps: Array<Array<SudoRPCExecutionPlanStep<any, any, any, any>>> = sudoRPCOrganizeSteps(appendedSteps);
 
         expect(result.succeed).to.be.true;
-        expect(organizedSteps).to.has.lengthOf(4);
+        expect(organizedSteps).to.has.lengthOf(5);
         expect(organizedSteps[0]).to.has.lengthOf(2);
-        expect(organizedSteps[1]).to.has.lengthOf(1);
+        expect(organizedSteps[1]).to.has.lengthOf(2);
         expect(organizedSteps[2]).to.has.lengthOf(1);
         expect(organizedSteps[3]).to.has.lengthOf(1);
+        expect(organizedSteps[4]).to.has.lengthOf(1);
     });
 });

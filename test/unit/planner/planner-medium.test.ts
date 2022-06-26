@@ -67,7 +67,7 @@ describe('Given {SudoRPCProcessMedium} Class', (): void => {
         const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = processMedium.steps;
 
         expect(result.succeed).to.be.true;
-        expect(steps).to.has.lengthOf(5);
+        expect(steps).to.has.lengthOf(6);
     });
 
     it('should be able to reject infinity loop dependencies', (): void => {
