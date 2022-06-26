@@ -4,7 +4,7 @@
  * @description Service
  */
 
-import { SudoRPCMiddlewareResourceHandlerReturnObject, SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject } from "../handler/declare";
+import { SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject } from "../handler/declare";
 import { AvailableResource, SudoRPCExecutionPlan, SudoRPCExecutionPlanStep } from "../planner/declare";
 import { sudoRPCNoParallelOrganizeSteps, sudoRPCOrganizeSteps } from "../planner/organize-step";
 import { SudoRPCPlanner } from "../planner/planner";
@@ -101,7 +101,7 @@ export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> implem
             if (stepsResult.length !== 0) {
 
                 const firstResult: SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject<FailResult> =
-                    stepsResult[0] as SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject<FailResult>;
+                    stepsResult[0];
 
                 return errorGenerator.createError(
                     firstResult.error,
