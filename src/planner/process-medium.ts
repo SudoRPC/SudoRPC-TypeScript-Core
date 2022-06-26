@@ -10,13 +10,20 @@ export const PROCESS_MEDIUM_DEPENDENCY_NOT_FOUND_SYMBOL = Symbol('dependency-not
 export const PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL = Symbol('infinity-loop');
 export const PROCESS_MEDIUM_RESOURCE_NOT_FOUND_SYMBOL = Symbol('resource-not-found');
 
-export const PROCESS_MEDIUM_SUCCEED_SYMBOL = Symbol('succeed');
+export type FulfillDependencySymbolResult = {
 
-export type FulfillDependencySymbolResult =
+    readonly succeed: true;
+} | {
+
+    readonly succeed: false;
+
+    readonly result:
     | typeof PROCESS_MEDIUM_DEPENDENCY_NOT_FOUND_SYMBOL
     | typeof PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL
-    | typeof PROCESS_MEDIUM_RESOURCE_NOT_FOUND_SYMBOL
-    | typeof PROCESS_MEDIUM_SUCCEED_SYMBOL;
+    | typeof PROCESS_MEDIUM_RESOURCE_NOT_FOUND_SYMBOL;
+
+    readonly payload: Record<string, any>;
+};
 
 export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> {
 
@@ -59,11 +66,13 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
         for (const dependency of dependencies) {
 
             const result: FulfillDependencySymbolResult = this._fulfillDependency(dependency, visitedResources);
-            if (result !== PROCESS_MEDIUM_SUCCEED_SYMBOL) {
+            if (!result.succeed) {
                 return result;
             }
         }
-        return PROCESS_MEDIUM_SUCCEED_SYMBOL;
+        return {
+            succeed: true,
+        };
     }
 
     private _fulfillDependency(
@@ -72,11 +81,21 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
     ): FulfillDependencySymbolResult {
 
         if (!this._satisfies.has(dependency)) {
-            return PROCESS_MEDIUM_DEPENDENCY_NOT_FOUND_SYMBOL;
+
+            return {
+                succeed: false,
+                result: PROCESS_MEDIUM_DEPENDENCY_NOT_FOUND_SYMBOL,
+                payload: {
+                    dependency,
+                },
+            }
         }
 
         if (this._fulfilledDependencies.has(dependency)) {
-            return PROCESS_MEDIUM_SUCCEED_SYMBOL;
+
+            return {
+                succeed: true,
+            };
         }
 
         const possibleFulfills: Set<AvailableResource<Metadata, Payload, SuccessResult, FailResult>> = this._satisfies.get(dependency)!;
@@ -93,7 +112,7 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
                 for (const dependency of dependencies) {
 
                     const result: FulfillDependencySymbolResult = this._fulfillDependency(dependency, visitedResources);
-                    if (result !== PROCESS_MEDIUM_SUCCEED_SYMBOL) {
+                    if (!result.succeed) {
                         return result;
                     }
                 }
@@ -106,9 +125,18 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
                 dependencyOf: dependency,
                 resource: possibleFulfill,
             });
-            return PROCESS_MEDIUM_SUCCEED_SYMBOL;
+            return {
+                succeed: true,
+            };
         }
-        return PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL;
+
+        return {
+            succeed: false,
+            result: PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL,
+            payload: {
+                dependency,
+            },
+        }
     }
 
     private _canExecute(

@@ -7,7 +7,7 @@
 
 import { expect } from "chai";
 import * as Chance from "chance";
-import { FulfillDependencySymbolResult, PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL, PROCESS_MEDIUM_SUCCEED_SYMBOL, SudoRPCExecutionPlanStep, SudoRPCProcessMedium } from "../../../src";
+import { FulfillDependencySymbolResult, PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL, SudoRPCExecutionPlanStep, SudoRPCProcessMedium } from "../../../src";
 import { infinityLoopSatisfies, infinityLoopSatisfiesRoot } from "../../mock/dependencies/infinity-loop-satisfies";
 import { simpleSatisfies, simpleSatisfiesRoot } from "../../mock/dependencies/simple-satisfies";
 import { twoResourcesNeedOneSatisfies, twoResourcesNeedOneSatisfiesRoot } from "../../mock/dependencies/two-resource-need-one-satisfies";
@@ -30,7 +30,7 @@ describe('Given {SudoRPCProcessMedium} Class', (): void => {
 
         const steps: SudoRPCExecutionPlanStep<any, any, any, any>[] = processMedium.steps;
 
-        expect(result).to.be.equal(PROCESS_MEDIUM_SUCCEED_SYMBOL);
+        expect(result.succeed).to.be.true;
         expect(steps).to.has.lengthOf(2);
     });
 
@@ -42,8 +42,8 @@ describe('Given {SudoRPCProcessMedium} Class', (): void => {
 
         const steps: SudoRPCExecutionPlanStep<any, any, any, any>[] = processMedium.steps;
 
-        expect(result1).to.be.equal(PROCESS_MEDIUM_SUCCEED_SYMBOL);
-        expect(result2).to.be.equal(PROCESS_MEDIUM_SUCCEED_SYMBOL);
+        expect(result1.succeed).to.be.true;
+        expect(result2.succeed).to.be.true;
         expect(steps).to.has.lengthOf(2);
     });
 
@@ -54,7 +54,7 @@ describe('Given {SudoRPCProcessMedium} Class', (): void => {
 
         const steps: SudoRPCExecutionPlanStep<any, any, any, any>[] = processMedium.steps;
 
-        expect(result).to.be.equal(PROCESS_MEDIUM_SUCCEED_SYMBOL);
+        expect(result.succeed).to.be.true;
         expect(steps).to.has.lengthOf(3);
     });
 
@@ -63,6 +63,10 @@ describe('Given {SudoRPCProcessMedium} Class', (): void => {
         const processMedium = SudoRPCProcessMedium.create(infinityLoopSatisfies);
         const result: FulfillDependencySymbolResult = processMedium.fulfill(infinityLoopSatisfiesRoot);
 
-        expect(result).to.be.equal(PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL);
+        expect(result).to.be.deep.equal({
+
+            succeed: false,
+            result: PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL,
+        });
     });
 });
