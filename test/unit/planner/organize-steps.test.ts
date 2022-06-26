@@ -15,6 +15,7 @@ import { twoResourcesNeedOneSatisfiesChain, twoResourcesNeedOneSatisfiesChainRoo
 
 describe('Given [Organize-Steps] Helper Functions', (): void => {
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const chance: Chance.Chance = new Chance('planner-organize-steps');
 
     it('should be able to organize simple dependencies', (): void => {

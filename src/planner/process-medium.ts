@@ -112,9 +112,10 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
             if (!this._canExecute(possibleFulfill)) {
 
                 const dependencies: string[] = possibleFulfill.dependencies;
-                for (const dependency of dependencies) {
+                for (const eachDependency of dependencies) {
 
-                    const result: FulfillDependencySymbolResult = this._fulfillDependency(dependency, visitedResources);
+                    const result: FulfillDependencySymbolResult =
+                        this._fulfillDependency(eachDependency, visitedResources);
                     if (!result.succeed) {
                         return result;
                     }

@@ -45,6 +45,7 @@ export enum SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON {
     UNKNOWN = 'UNKNOWN',
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type SudoRPCExecutionNotSatisfiedPlan<Metadata, Payload, SuccessResult, FailResult> =
     | {
 
