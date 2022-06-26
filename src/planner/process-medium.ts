@@ -70,6 +70,7 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
                 return result;
             }
         }
+
         return {
             succeed: true,
         };
@@ -83,6 +84,7 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
         if (!this._satisfies.has(dependency)) {
 
             return {
+
                 succeed: false,
                 result: PROCESS_MEDIUM_DEPENDENCY_NOT_FOUND_SYMBOL,
                 payload: {
@@ -121,16 +123,20 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
             this._fulfilledDependencies.add(dependency);
 
             this._steps.push({
+
                 reason: SUDORPC_PLAN_EXECUTE_STEP_REASON.DEPENDENCY,
                 dependencyOf: dependency,
                 resource: possibleFulfill,
             });
+
             return {
+
                 succeed: true,
             };
         }
 
         return {
+
             succeed: false,
             result: PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL,
             payload: {

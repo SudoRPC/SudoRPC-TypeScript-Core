@@ -67,6 +67,9 @@ describe('Given {SudoRPCProcessMedium} Class', (): void => {
 
             succeed: false,
             result: PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL,
+            payload: {
+                dependency: 'dep1',
+            },
         });
     });
 });
