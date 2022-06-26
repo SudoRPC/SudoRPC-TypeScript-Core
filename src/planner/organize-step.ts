@@ -11,10 +11,10 @@ export const sudoRPCNoParallelOrganizeSteps = <Metadata, Payload, SuccessResult,
 ): Array<Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>>> => {
 
     const result: Array<Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>>> = [];
-
     for (const step of steps) {
         result.push([step]);
     }
+
     return result;
 };
 
