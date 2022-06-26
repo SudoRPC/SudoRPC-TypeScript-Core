@@ -8,6 +8,12 @@ import { SudoRPCBaseHandlerHelper } from "../handler/helper/base-helper";
 import { SudoRPCHandlerContext } from "../handler/context";
 import { SudoRPCCall } from "../structure/call";
 
+export const RESOURCE_TYPE_SYMBOL = Symbol("resource-type");
+export enum RESOURCE_TYPE {
+    ENDPOINT = "ENDPOINT",
+    MIDDLEWARE = "MIDDLEWARE",
+}
+
 export abstract class SudoRPCBaseResource<Metadata, Payload> {
 
     protected readonly _resourceName: string;

@@ -18,6 +18,7 @@ export * from "./resource/endpoint-resource";
 export * from "./resource/middleware-resource";
 export * from "./service/declare";
 export * from "./service/error/error-generator";
+export * from "./service/executer";
 export * from "./service/service";
 export * from "./structure/call";
 export * from "./structure/return";

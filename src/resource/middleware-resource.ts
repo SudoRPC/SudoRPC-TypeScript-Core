@@ -8,7 +8,7 @@ import { SudoRPCHandlerContext } from "../handler/context";
 import { SudoRPCMiddlewareResourceHandler, SudoRPCMiddlewareResourceHandlerReturn } from "../handler/declare";
 import { SudoRPCMiddlewareHandlerHelper } from "../handler/helper/middleware-helper";
 import { SudoRPCCall } from "../structure/call";
-import { SudoRPCBaseResource } from "./base-resource";
+import { RESOURCE_TYPE, RESOURCE_TYPE_SYMBOL, SudoRPCBaseResource } from "./base-resource";
 
 export class SudoRPCMiddlewareResource<Metadata, Payload, FailResult> extends SudoRPCBaseResource<Metadata, Payload> {
 
@@ -26,6 +26,8 @@ export class SudoRPCMiddlewareResource<Metadata, Payload, FailResult> extends Su
             satisfies,
         );
     }
+
+    public [RESOURCE_TYPE_SYMBOL]: RESOURCE_TYPE.MIDDLEWARE = RESOURCE_TYPE.MIDDLEWARE;
 
     private readonly _handler: SudoRPCMiddlewareResourceHandler<Metadata, Payload, FailResult>;
 

@@ -8,7 +8,7 @@ import { SudoRPCHandlerContext } from "../handler/context";
 import { SudoRPCEndpointResourceHandler, SudoRPCEndpointResourceHandlerReturn } from "../handler/declare";
 import { SudoRPCEndpointHandlerHelper } from "../handler/helper/endpoint-helper";
 import { SudoRPCCall } from "../structure/call";
-import { SudoRPCBaseResource } from "./base-resource";
+import { RESOURCE_TYPE, RESOURCE_TYPE_SYMBOL, SudoRPCBaseResource } from "./base-resource";
 
 export class SudoRPCEndpointResource<Metadata, Payload, SuccessResult, FailResult> extends SudoRPCBaseResource<Metadata, Payload> {
 
@@ -43,6 +43,8 @@ export class SudoRPCEndpointResource<Metadata, Payload, SuccessResult, FailResul
             true,
         );
     }
+
+    public [RESOURCE_TYPE_SYMBOL]: RESOURCE_TYPE.ENDPOINT = RESOURCE_TYPE.ENDPOINT;
 
     private readonly _handler: SudoRPCEndpointResourceHandler<Metadata, Payload, SuccessResult, FailResult>;
 

@@ -18,3 +18,13 @@ export interface ISudoRPCService<Metadata, Payload, SuccessResult, FailResult> {
 export type SudoRPCServiceMixin<Metadata, Payload, SuccessResult, FailResult> = (
     service: ISudoRPCService<Metadata, Payload, SuccessResult, FailResult>,
 ) => void;
+
+export type SudoRPCServiceConfiguration = {
+
+    readonly noParallel: boolean;
+};
+
+export const DefaultSudoRPCServiceConfiguration: SudoRPCServiceConfiguration = {
+
+    noParallel: false,
+};
