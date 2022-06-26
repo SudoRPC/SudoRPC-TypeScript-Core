@@ -8,12 +8,10 @@ import { AvailableResource, SudoRPCExecutionPlan } from "../planner/declare";
 import { SudoRPCPlanner } from "../planner/planner";
 import { SudoRPCCall } from "../structure/call";
 import { SudoRPCReturn } from "../structure/return";
+import { ISudoRPCService, SudoRPCServiceMixin } from "./declare";
 
-export type SudoRPCServiceMixin<Metadata, Payload, SuccessResult, FailResult> = (
-    service: SudoRPCService<Metadata, Payload, SuccessResult, FailResult>,
-) => void;
-
-export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> {
+export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> implements
+    ISudoRPCService<Metadata, Payload, SuccessResult, FailResult> {
 
     public static create<Metadata, Payload, SuccessResult, FailResult>(
         serviceName: string,

@@ -16,6 +16,7 @@ export * from "./planner/process-medium";
 export * from "./resource/base-resource";
 export * from "./resource/endpoint-resource";
 export * from "./resource/middleware-resource";
+export * from "./service/declare";
 export * from "./service/service";
 export * from "./structure/call";
 export * from "./structure/return";
