@@ -28,14 +28,20 @@ export type SudoRPCEndpointResourceHandler<Metadata, Payload, SuccessResult, Fai
         helper: SudoRPCEndpointHandlerHelper<Metadata, Payload, SuccessResult, FailResult>,
     ) => SudoRPCEndpointResourceHandlerReturn<SuccessResult, FailResult>;
 
-export type SudoRPCMiddlewareResourceHandlerReturnObject<FailResult> = {
+export type SudoRPCMiddlewareResourceHandlerShouldContinueReturnObject = {
     readonly shouldContinue: true;
-} | {
+};
+
+export type SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject<FailResult> = {
     readonly shouldContinue: false;
     readonly error: string;
     readonly message: string;
     readonly result: FailResult;
 };
+
+export type SudoRPCMiddlewareResourceHandlerReturnObject<FailResult> =
+    | SudoRPCMiddlewareResourceHandlerShouldContinueReturnObject
+    | SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject<FailResult>;
 
 export type SudoRPCMiddlewareResourceHandlerReturn<FailResult> =
     | Promise<SudoRPCMiddlewareResourceHandlerReturnObject<FailResult>>

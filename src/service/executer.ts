@@ -4,7 +4,7 @@
  * @description Executer
  */
 
-import { SudoRPCEndpointResourceHandlerReturn, SudoRPCMiddlewareResourceHandlerReturn } from "../handler/declare";
+import { SudoRPCEndpointResourceHandlerReturn, SudoRPCMiddlewareResourceHandlerReturn, SudoRPCMiddlewareResourceHandlerReturnObject, SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject } from "../handler/declare";
 import { AvailableResource } from "../planner/declare";
 import { RESOURCE_TYPE, RESOURCE_TYPE_SYMBOL } from "../resource/base-resource";
 import { SudoRPCEndpointResource } from "../resource/endpoint-resource";
@@ -14,7 +14,7 @@ import { SudoRPCCall } from "../structure/call";
 export const executeAvailableResourceAsMiddleware = async <Metadata, Payload, SuccessResult, FailResult>(
     resource: AvailableResource<Metadata, Payload, SuccessResult, FailResult>,
     call: SudoRPCCall<Metadata, Payload>,
-): Promise<SudoRPCMiddlewareResourceHandlerReturn<FailResult>> => {
+): Promise<SudoRPCMiddlewareResourceHandlerReturnObject<FailResult>> => {
 
     if (resource[RESOURCE_TYPE_SYMBOL] === RESOURCE_TYPE.MIDDLEWARE) {
 
@@ -45,4 +45,29 @@ export const executeAvailableResourceAsMiddleware = async <Metadata, Payload, Su
         };
     }
     throw new Error('Unknown resource type');
+};
+
+export const executeParallelAvailableResourceListAsMiddleware = async <Metadata, Payload, SuccessResult, FailResult>(
+    resources: Array<AvailableResource<Metadata, Payload, SuccessResult, FailResult>>,
+    call: SudoRPCCall<Metadata, Payload>,
+): Promise<Array<SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject<FailResult>>> => {
+
+    const executeList: Array<Promise<SudoRPCMiddlewareResourceHandlerReturnObject<FailResult>>> = [];
+
+    for (const resource of resources) {
+        executeList.push(Promise.resolve(executeAvailableResourceAsMiddleware(resource, call)));
+    }
+
+    const failResults: Array<SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject<FailResult>> = [];
+
+    const executeResults: Array<SudoRPCMiddlewareResourceHandlerReturnObject<FailResult>> = await Promise.all(executeList);
+    for (const executeResult of executeResults) {
+
+        if (executeResult.shouldContinue) {
+            continue;
+        }
+        failResults.push(executeResult);
+    }
+
+    return failResults;
 };

@@ -27,6 +27,23 @@ export class SudoRPCServiceErrorGenerator<Metadata, Payload, SuccessResult, Fail
         this._call = call;
     }
 
+    public createError(
+        error: string,
+        message: string,
+        result: FailResult,
+    ): SudoRPCReturn<SuccessResult, FailResult> {
+
+        return {
+            version: '1.0',
+            identifier: this._call.identifier,
+            success: false,
+            isInternalError: false,
+            error,
+            message,
+            result,
+        };
+    }
+
     public createInternalError(
         error: string,
         message: string,

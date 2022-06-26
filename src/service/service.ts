@@ -4,6 +4,7 @@
  * @description Service
  */
 
+import { SudoRPCMiddlewareResourceHandlerReturnObject, SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject } from "../handler/declare";
 import { AvailableResource, SudoRPCExecutionPlan, SudoRPCExecutionPlanStep } from "../planner/declare";
 import { sudoRPCNoParallelOrganizeSteps, sudoRPCOrganizeSteps } from "../planner/organize-step";
 import { SudoRPCPlanner } from "../planner/planner";
@@ -11,6 +12,7 @@ import { SudoRPCCall } from "../structure/call";
 import { SudoRPCReturn } from "../structure/return";
 import { DefaultSudoRPCServiceConfiguration, ISudoRPCService, SudoRPCServiceConfiguration, SudoRPCServiceMixin } from "./declare";
 import { SudoRPCServiceErrorGenerator } from "./error/error-generator";
+import { executeParallelAvailableResourceListAsMiddleware } from "./executer";
 
 export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> implements
     ISudoRPCService<Metadata, Payload, SuccessResult, FailResult> {
@@ -83,6 +85,31 @@ export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> implem
 
         const organizedSteps: Array<Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>>>
             = this._organizeSteps(plan.steps);
+
+        for (const steps of organizedSteps) {
+
+            const stepsResult: Array<SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject<FailResult>> =
+                await executeParallelAvailableResourceListAsMiddleware(
+                    steps.map((
+                        step: SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>,
+                    ) => {
+                        return step.resource;
+                    }),
+                    call,
+                );
+
+            if (stepsResult.length !== 0) {
+
+                const firstResult: SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject<FailResult> =
+                    stepsResult[0] as SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject<FailResult>;
+
+                return errorGenerator.createError(
+                    firstResult.error,
+                    firstResult.message,
+                    firstResult.result,
+                );
+            }
+        }
 
         return null as any;
     }
