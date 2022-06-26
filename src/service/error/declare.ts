@@ -6,13 +6,13 @@
 
 export type ErrorGeneratorCreateErrorOption<FailResult> = {
 
-    readonly error: string,
-    readonly message: string,
-    readonly result: FailResult,
+    readonly error: string;
+    readonly message: string;
+    readonly result: FailResult;
 };
 
 export type ErrorGeneratorCreateInternalErrorOption = {
 
-    readonly error: string,
-    readonly message: string,
+    readonly error: string;
+    readonly message: string;
 };

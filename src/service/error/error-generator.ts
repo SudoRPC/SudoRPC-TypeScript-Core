@@ -86,11 +86,24 @@ export class SudoRPCServiceErrorGenerator<Metadata, Payload, SuccessResult, Fail
                     error: '[SudoRPC] Resource Not Found',
                     message: `Resource ${plan.resource} not found`,
                 }]);
+            case SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON.CANNOT_CALL_NOT_ENDPOINT_RESOURCE:
+                return this.createInternalErrors([{
+                    error: '[SudoRPC] Cannot Call Not Endpoint Resource',
+                    message: `Cannot call not endpoint resource ${plan.resource}`,
+                }]);
             case SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON.UNKNOWN:
                 return this.createInternalErrors([{
                     error: '[SudoRPC] Unknown',
                     message: `Unknown`,
                 }]);
         }
+    }
+
+    public createUnknownInternalError(): SudoRPCReturn<SuccessResult, FailResult> {
+
+        return this.createInternalErrors([{
+            error: '[SudoRPC] Unknown',
+            message: `Unknown`,
+        }]);
     }
 }

@@ -4,15 +4,16 @@
  * @description Service
  */
 
-import { SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject } from "../handler/declare";
+import { SudoRPCEndpointResourceHandlerReturnObject, SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject } from "../handler/declare";
 import { AvailableResource, SudoRPCExecutionPlan, SudoRPCExecutionPlanStep } from "../planner/declare";
 import { sudoRPCNoParallelOrganizeSteps, sudoRPCOrganizeSteps } from "../planner/organize-step";
 import { SudoRPCPlanner } from "../planner/planner";
 import { SudoRPCCall } from "../structure/call";
 import { SudoRPCReturn } from "../structure/return";
+import { executeCallResource } from "./call-executer";
 import { DefaultSudoRPCServiceConfiguration, ISudoRPCService, SudoRPCServiceConfiguration, SudoRPCServiceMixin } from "./declare";
+import { executeParallelAvailableResourceListAsMiddleware } from "./dependency-executer";
 import { SudoRPCServiceErrorGenerator } from "./error/error-generator";
-import { executeParallelAvailableResourceListAsMiddleware } from "./executer";
 
 export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> implements
     ISudoRPCService<Metadata, Payload, SuccessResult, FailResult> {
@@ -76,15 +77,29 @@ export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> implem
         const errorGenerator: SudoRPCServiceErrorGenerator<Metadata, Payload, SuccessResult, FailResult> =
             SudoRPCServiceErrorGenerator.create<Metadata, Payload, SuccessResult, FailResult>(call);
 
-        const plan: SudoRPCExecutionPlan<Metadata, Payload, SuccessResult, FailResult>
+        try {
+
+            return await this._executeUnsafe(call, errorGenerator);
+        } catch (error) {
+
+            return errorGenerator.createUnknownInternalError();
+        }
+    }
+
+    private async _executeUnsafe(
+        call: SudoRPCCall<Metadata, Payload>,
+        errorGenerator: SudoRPCServiceErrorGenerator<Metadata, Payload, SuccessResult, FailResult>,
+    ): Promise<SudoRPCReturn<SuccessResult, FailResult>> {
+
+        const dependenciesPlan: SudoRPCExecutionPlan<Metadata, Payload, SuccessResult, FailResult>
             = this._planner.planDependencies(call);
 
-        if (!plan.satisfiable) {
-            return errorGenerator.createExecutePlanNotSatisfiedInternalError(plan);
+        if (!dependenciesPlan.satisfiable) {
+            return errorGenerator.createExecutePlanNotSatisfiedInternalError(dependenciesPlan);
         }
 
         const organizedSteps: Array<Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>>>
-            = this._organizeSteps(plan.steps);
+            = this._organizeSteps(dependenciesPlan.steps);
 
         for (const steps of organizedSteps) {
 
@@ -112,7 +127,37 @@ export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> implem
             }
         }
 
-        return null as any;
+        const callPlan: SudoRPCExecutionPlan<Metadata, Payload, SuccessResult, FailResult>
+            = this._planner.planCall(call);
+
+        if (!callPlan.satisfiable) {
+            return errorGenerator.createExecutePlanNotSatisfiedInternalError(callPlan);
+        }
+
+        if (callPlan.steps.length !== 1) {
+            return errorGenerator.createUnknownInternalError();
+        }
+
+        const callStep: SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>
+            = callPlan.steps[0];
+
+        const callExecuteResult: SudoRPCEndpointResourceHandlerReturnObject<SuccessResult, FailResult>
+            = await executeCallResource(callStep.resource, call);
+
+        if (!callExecuteResult.success) {
+            return errorGenerator.createErrors([{
+                error: callExecuteResult.error,
+                message: callExecuteResult.message,
+                result: callExecuteResult.result,
+            }]);
+        }
+
+        return {
+            version: '1.0',
+            identifier: call.identifier,
+            success: true,
+            result: callExecuteResult.result,
+        };
     }
 
     private _organizeSteps(

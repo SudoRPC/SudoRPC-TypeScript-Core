@@ -1,7 +1,7 @@
 /**
  * @author WMXPY
  * @namespace Service
- * @description Executer
+ * @description Dependency Executer
  */
 
 import { SudoRPCEndpointResourceHandlerReturn, SudoRPCMiddlewareResourceHandlerReturn, SudoRPCMiddlewareResourceHandlerReturnObject, SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject } from "../handler/declare";

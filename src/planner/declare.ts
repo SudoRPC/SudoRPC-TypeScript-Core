@@ -42,6 +42,8 @@ export enum SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON {
     DEPENDENCY_INFINITE_LOOP = 'DEPENDENCY_INFINITE_LOOP',
     RESOURCE_NOT_FOUND = 'RESOURCE_NOT_FOUND',
 
+    CANNOT_CALL_NOT_ENDPOINT_RESOURCE = 'CANNOT_CALL_NOT_ENDPOINT_RESOURCE',
+
     UNKNOWN = 'UNKNOWN',
 }
 
@@ -60,7 +62,13 @@ export type SudoRPCExecutionNotSatisfiedPlan =
 
         readonly reason: SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON.RESOURCE_NOT_FOUND;
         readonly resource: string;
-    } | {
+    }
+    | {
+
+        readonly reason: SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON.CANNOT_CALL_NOT_ENDPOINT_RESOURCE;
+        readonly resource: string;
+    }
+    | {
 
         readonly reason: SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON.UNKNOWN;
     };
