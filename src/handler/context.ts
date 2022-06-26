@@ -19,7 +19,7 @@ export class SudoRPCHandlerContext<Metadata, Payload> {
 
     private readonly _call: SudoRPCCall<Metadata, Payload>;
 
-    private readonly _namespaces: Map<Symbol, Map<string, any>>;
+    private readonly _namespaces: Map<symbol, Map<string, any>>;
 
     private constructor(
         call: SudoRPCCall<Metadata, Payload>,

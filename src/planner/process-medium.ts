@@ -36,7 +36,7 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
 
     private readonly _satisfies: Map<string, Set<AvailableResource<Metadata, Payload, SuccessResult, FailResult>>>;
 
-    private readonly _steps: SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>[];
+    private readonly _steps: Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>>;
 
     private readonly _fulfilledDependencies: Set<string>;
 
@@ -51,7 +51,7 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
         this._fulfilledDependencies = new Set();
     }
 
-    public get steps(): SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>[] {
+    public get steps(): Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>> {
         return this._steps;
     }
 
@@ -89,7 +89,7 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
                 payload: {
                     dependency,
                 },
-            }
+            };
         }
 
         if (this._fulfilledDependencies.has(dependency)) {
@@ -99,7 +99,9 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
             };
         }
 
-        const possibleFulfills: Set<AvailableResource<Metadata, Payload, SuccessResult, FailResult>> = this._satisfies.get(dependency)!;
+        const possibleFulfills: Set<AvailableResource<Metadata, Payload, SuccessResult, FailResult>> =
+            this._satisfies.get(dependency) as Set<AvailableResource<Metadata, Payload, SuccessResult, FailResult>>;
+
         for (const possibleFulfill of possibleFulfills) {
 
             if (visitedResources.has(possibleFulfill)) {
@@ -122,7 +124,6 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
             this._fulfilledDependencies.add(dependency);
 
             this._steps.push({
-
                 reason: SUDORPC_PLAN_EXECUTE_STEP_REASON.DEPENDENCY,
                 dependencyOf: dependency,
                 resource: possibleFulfill,
@@ -139,7 +140,7 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
             payload: {
                 dependency,
             },
-        }
+        };
     }
 
     private _canExecute(

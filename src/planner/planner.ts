@@ -35,7 +35,10 @@ export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
             if (!this._satisfies.has(satisfy)) {
                 this._satisfies.set(satisfy, new Set());
             }
-            this._satisfies.get(satisfy)!.add(resource);
+
+            const satisfyGroup: Set<AvailableResource<Metadata, Payload, SuccessResult, FailResult>> =
+                this._satisfies.get(satisfy) as Set<AvailableResource<Metadata, Payload, SuccessResult, FailResult>>;
+            satisfyGroup.add(resource);
         }
 
         return this;
@@ -55,7 +58,8 @@ export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
             };
         }
 
-        const targetResource: AvailableResource<Metadata, Payload, SuccessResult, FailResult> = this._resources.get(targetResourceName)!;
+        const targetResource: AvailableResource<Metadata, Payload, SuccessResult, FailResult> =
+            this._resources.get(targetResourceName) as AvailableResource<Metadata, Payload, SuccessResult, FailResult>;
 
         const medium: SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> = SudoRPCProcessMedium.create(this._satisfies);
 
@@ -63,7 +67,7 @@ export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
 
         if (result.succeed) {
 
-            const steps: SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>[] = [
+            const steps: Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>> = [
                 ...medium.steps,
                 {
                     reason: SUDORPC_PLAN_EXECUTE_STEP_REASON.CALL,

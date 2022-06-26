@@ -69,7 +69,7 @@ export type SudoRPCExecutionPlan<Metadata, Payload, SuccessResult, FailResult> =
     | {
 
         readonly satisfiable: true;
-        readonly steps: SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>[];
+        readonly steps: Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>>;
     }
     | ({
 
