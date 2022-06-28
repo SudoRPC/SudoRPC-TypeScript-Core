@@ -5,12 +5,13 @@
  * @override Integration Test
  */
 
+import { expect } from "chai";
 import * as Chance from "chance";
 import { SudoRPCCallManager } from "../../../src";
 import { MockLocalCallProxy } from "../../mock/proxy/local-call";
 import { createCounterService } from "../../mock/service/counter";
 
-describe.only('Given (Counter) Integration Test Scenario', (): void => {
+describe('Given (Counter) Integration Test Scenario', (): void => {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const chance: Chance.Chance = new Chance('counter-counter');
@@ -21,16 +22,23 @@ describe.only('Given (Counter) Integration Test Scenario', (): void => {
         callManager = SudoRPCCallManager.create(
             MockLocalCallProxy.create(createCounterService()),
         );
+        callManager.ignite();
     });
 
-    it('should be able to execute increment', (): void => {
+    afterEach((): void => {
+        callManager.dialDown();
+    });
+
+    it('should be able to execute increment', async (): Promise<void> => {
 
         const first: number = chance.integer();
         const second: number = chance.integer();
 
-        callManager.makeCall("increment", {}, {
+        const result = await callManager.makeCall("increment", {}, {
             first,
             second,
         });
+
+        expect(result).to.be.equal(first + second);
     });
 });
