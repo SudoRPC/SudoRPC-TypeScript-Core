@@ -10,6 +10,7 @@ import { SudoRPCCreateCallConfig } from "./declare";
 export const createSudoRPCCall = <Metadata, Payload>(config: SudoRPCCreateCallConfig<Metadata, Payload>): SudoRPCCall<Metadata, Payload> => {
 
     return {
+
         version: "1.0",
         resource: config.resource,
         identifier: config.identifier,

@@ -4,11 +4,11 @@
  * @description Index
  */
 
-export * from "./adapter/client-adapter";
 export * from "./call/callback";
 export * from "./call/create";
 export * from "./call/declare";
 export * from "./call/manager";
+export * from "./call/proxy";
 export * from "./handler/context";
 export * from "./handler/declare";
 export * from "./handler/helper/base-helper";
