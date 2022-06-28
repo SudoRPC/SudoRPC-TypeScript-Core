@@ -1,7 +1,7 @@
 /**
  * @author WMXPY
  * @namespace Call
- * @description Call
+ * @description Create
  */
 
 import { SudoRPCCall } from "../structure/call";
