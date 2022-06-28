@@ -34,7 +34,7 @@ describe('Given (Counter) Integration Test Scenario', (): void => {
         const first: number = chance.integer();
         const second: number = chance.integer();
 
-        const result = await callManager.makeCall("increment", {}, {
+        const result: any = await callManager.makeCall("increment", {}, {
             first,
             second,
         });
