@@ -7,7 +7,7 @@
 import { SudoRPCCall } from "../structure/call";
 import { SudoRPCCreateCallConfig } from "./declare";
 
-export const createCall = <Metadata, Payload>(config: SudoRPCCreateCallConfig<Metadata, Payload>): SudoRPCCall<Metadata, Payload> => {
+export const createSudoRPCCall = <Metadata, Payload>(config: SudoRPCCreateCallConfig<Metadata, Payload>): SudoRPCCall<Metadata, Payload> => {
 
     return {
         version: "1.0",
