@@ -7,18 +7,34 @@
 import { SudoRPCReturnV1ErrorItem } from "../structure/return";
 import { SudoRPCCallCallback } from "./callback";
 import { UUIDVersion4 } from "@sudoo/uuid";
+import { SudoRPCCallProxy } from "./proxy";
 
 export class SudoRPCCallManager<Metadata, Payload, SuccessResult, FailResult> {
 
+    public static create<Metadata, Payload, SuccessResult, FailResult>(
+        proxy: SudoRPCCallProxy<Metadata, Payload, SuccessResult, FailResult>,
+    ): SudoRPCCallManager<Metadata, Payload, SuccessResult, FailResult> {
+
+        return new SudoRPCCallManager<Metadata, Payload, SuccessResult, FailResult>(
+            proxy,
+        );
+    }
+
+    private readonly _proxy: SudoRPCCallProxy<Metadata, Payload, SuccessResult, FailResult>;
+
     private readonly _callbacks: Map<string, SudoRPCCallCallback<SuccessResult, FailResult>>;
 
-    private constructor() {
+    private constructor(
+        proxy: SudoRPCCallProxy<Metadata, Payload, SuccessResult, FailResult>,
+    ) {
+
+        this._proxy = proxy;
 
         this._callbacks = new Map();
     }
 
     public makeCall(
-        resource: string,
+        resourceName: string,
         metadata: Metadata,
         payload: Payload,
     ): Promise<SuccessResult> {
