@@ -29,6 +29,7 @@ export class MockLocalCallProxy extends SudoRPCCallProxy<any, any, any, any> {
     public send(call: SudoRPCCall<any, any>): void {
 
         this._service.execute(call).then((message: SudoRPCReturn<any, any>) => {
+
             if (this._callback) {
                 this._callback(message);
             }
