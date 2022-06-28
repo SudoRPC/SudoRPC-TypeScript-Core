@@ -17,7 +17,9 @@ export const createCounterService = (): SudoRPCService<any, any, any, any> => {
             helper: SudoRPCEndpointHandlerHelper<any, any, any, any>,
         ): SudoRPCEndpointResourceHandlerReturn<any, any> => {
 
-            return helper.createSuccessReturn(context.payload.first + context.payload.second);
+            return helper.createSuccessReturn(
+                context.getPayloadKey("first") + context.getPayloadKey("second"),
+            );
         }, [], []),
     );
 
