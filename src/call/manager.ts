@@ -6,6 +6,7 @@
 
 import { SudoRPCReturnV1ErrorItem } from "../structure/return";
 import { SudoRPCCallCallback } from "./callback";
+import { UUIDVersion4 } from "@sudoo/uuid";
 
 export class SudoRPCCallManager<Metadata, Payload, SuccessResult, FailResult> {
 
@@ -22,6 +23,8 @@ export class SudoRPCCallManager<Metadata, Payload, SuccessResult, FailResult> {
         payload: Payload,
     ): Promise<SuccessResult> {
 
+        const identifier: string = UUIDVersion4.generate().toString();
+
         return new Promise<SuccessResult>((
             resolve: (result: SuccessResult) => void,
             reject: (errors: Array<SudoRPCReturnV1ErrorItem<FailResult>>) => void,
@@ -30,7 +33,7 @@ export class SudoRPCCallManager<Metadata, Payload, SuccessResult, FailResult> {
             const callback: SudoRPCCallCallback<SuccessResult, FailResult> =
                 SudoRPCCallCallback.create(resolve, reject);
 
-            this._callbacks.set(resource, callback);
+            this._callbacks.set(identifier, callback);
         });
     }
 
@@ -46,9 +49,9 @@ export class SudoRPCCallManager<Metadata, Payload, SuccessResult, FailResult> {
         const callback: SudoRPCCallCallback<SuccessResult, FailResult> =
             this._callbacks.get(identifier) as SudoRPCCallCallback<SuccessResult, FailResult>;
 
-        if (callback) {
-            callback.resolve(result);
-        }
+        callback.resolve(result);
+
+        this._callbacks.delete(identifier);
     }
 
     public rejectCall(
@@ -63,8 +66,8 @@ export class SudoRPCCallManager<Metadata, Payload, SuccessResult, FailResult> {
         const callback: SudoRPCCallCallback<SuccessResult, FailResult> =
             this._callbacks.get(identifier) as SudoRPCCallCallback<SuccessResult, FailResult>;
 
-        if (callback) {
-            callback.reject(errors);
-        }
+        callback.reject(errors);
+
+        this._callbacks.delete(identifier);
     }
 }
