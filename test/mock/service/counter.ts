@@ -32,7 +32,7 @@ export const createCounterService = (): SudoRPCService<any, any, any, any> => {
             return helper.createSuccessReturn(
                 context.getPayloadKey("first")
                 + context.getPayloadKey("second")
-                // + context.getDefaultContext("plus"),
+                + context.getDefaultContext("plus"),
             );
         }, ["plus-one"]),
     );

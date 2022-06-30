@@ -39,6 +39,6 @@ describe('Given (Counter) Integration Test Scenario', (): void => {
             second,
         });
 
-        expect(result).to.be.equal(first + second);
+        expect(result).to.be.equal(first + second + 1);
     });
 });

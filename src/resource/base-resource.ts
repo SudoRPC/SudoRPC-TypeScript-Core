@@ -56,14 +56,4 @@ export abstract class SudoRPCBaseResource<Metadata, Payload> {
         this._satisfies.push(satisfy);
         return this;
     }
-
-    protected _createContext(call: SudoRPCCall<Metadata, Payload>): SudoRPCHandlerContext<Metadata, Payload> {
-
-        const context: SudoRPCHandlerContext<Metadata, Payload> =
-            SudoRPCHandlerContext.create(call);
-
-        return context;
-    }
-
-    protected abstract _createHelper(call: SudoRPCCall<Metadata, Payload>): SudoRPCBaseHandlerHelper<Metadata, Payload>;
 }

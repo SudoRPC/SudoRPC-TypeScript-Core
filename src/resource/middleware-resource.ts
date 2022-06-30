@@ -45,10 +45,8 @@ export class SudoRPCMiddlewareResource<Metadata, Payload, FailResult> extends Su
 
     public execute(
         call: SudoRPCCall<Metadata, Payload>,
+        context: SudoRPCHandlerContext<Metadata, Payload>,
     ): SudoRPCMiddlewareResourceHandlerReturn<FailResult> {
-
-        const context: SudoRPCHandlerContext<Metadata, Payload> =
-            this._createContext(call);
 
         const helper: SudoRPCMiddlewareHandlerHelper<Metadata, Payload, FailResult> =
             this._createHelper(call);

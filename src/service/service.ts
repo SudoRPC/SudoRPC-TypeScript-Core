@@ -4,7 +4,9 @@
  * @description Service
  */
 
+import { SudoRPCHandlerContext } from "../handler/context";
 import { SudoRPCEndpointResourceHandlerReturnObject, SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject } from "../handler/declare";
+import { SudoRPCEndpointHandlerHelper } from "../handler/helper/endpoint-helper";
 import { AvailableResource, SudoRPCExecutionPlan, SudoRPCExecutionPlanStep } from "../planner/declare";
 import { sudoRPCNoParallelOrganizeSteps, sudoRPCOrganizeSteps } from "../planner/organize-step";
 import { SudoRPCPlanner } from "../planner/planner";
@@ -101,6 +103,9 @@ export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> implem
         const organizedSteps: Array<Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>>>
             = this._organizeSteps(dependenciesPlan.steps);
 
+        const context: SudoRPCHandlerContext<Metadata, Payload> =
+            this._createContext(call);
+
         for (const steps of organizedSteps) {
 
             const stepsResult: Array<SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject<FailResult>> =
@@ -111,6 +116,7 @@ export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> implem
                         return step.resource;
                     }),
                     call,
+                    context,
                 );
 
             if (stepsResult.length !== 0) {
@@ -142,7 +148,7 @@ export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> implem
             = callPlan.steps[0];
 
         const callExecuteResult: SudoRPCEndpointResourceHandlerReturnObject<SuccessResult, FailResult>
-            = await executeCallResource(callStep.resource, call);
+            = await executeCallResource(callStep.resource, call, context);
 
         if (!callExecuteResult.success) {
             return errorGenerator.createErrors([{
@@ -169,5 +175,23 @@ export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> implem
         }
 
         return sudoRPCOrganizeSteps(steps);
+    }
+
+    private _createContext(call: SudoRPCCall<Metadata, Payload>): SudoRPCHandlerContext<Metadata, Payload> {
+
+        const context: SudoRPCHandlerContext<Metadata, Payload> =
+            SudoRPCHandlerContext.create(call);
+
+        return context;
+    }
+
+    private _createHelper(
+        call: SudoRPCCall<Metadata, Payload>,
+    ): SudoRPCEndpointHandlerHelper<Metadata, Payload, SuccessResult, FailResult> {
+
+        const helper: SudoRPCEndpointHandlerHelper<Metadata, Payload, SuccessResult, FailResult> =
+            SudoRPCEndpointHandlerHelper.create(call);
+
+        return helper;
     }
 }
