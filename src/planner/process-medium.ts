@@ -34,7 +34,7 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
             SudoRPCProcessStatus.create(resource);
 
         const dependencies: string[] = resource.dependencies;
-        const dependencySteps: SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>[] = [];
+        const dependencySteps: Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>> = [];
 
         for (const dependency of dependencies) {
 
@@ -90,14 +90,14 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
 
         const erroredOptions: FulfillDependencySymbolResult[] = [];
 
-        const possibleStatuses: SudoRPCProcessStatus<Metadata, Payload, SuccessResult, FailResult>[] = [];
+        const possibleStatuses: Array<SudoRPCProcessStatus<Metadata, Payload, SuccessResult, FailResult>> = [];
 
         possibleLoop: for (const possibleFulfill of possibleFulfills) {
 
             const possibleStatus: SudoRPCProcessStatus<Metadata, Payload, SuccessResult, FailResult> =
                 status.clone();
 
-            const dependencySteps: SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>[] = [];
+            const dependencySteps: Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>> = [];
 
             if (possibleStatus.isResourceVisited(possibleFulfill)) {
 

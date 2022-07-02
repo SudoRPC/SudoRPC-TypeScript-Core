@@ -69,7 +69,7 @@ export class SudoRPCProcessStatus<Metadata, Payload, SuccessResult, FailResult> 
         this._fulfilledDependencies.add(dependency);
     }
 
-    public addFulfilledDependencyList(dependencies: Array<string>): void {
+    public addFulfilledDependencyList(dependencies: string[]): void {
 
         for (const dependency of dependencies) {
             this._fulfilledDependencies.add(dependency);
