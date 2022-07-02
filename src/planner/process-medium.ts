@@ -4,7 +4,7 @@
  * @description Process Medium
  */
 
-import { AvailableResource, SudoRPCExecutionPlanDependencyStep, SudoRPCExecutionPlanStep, SUDORPC_PLAN_EXECUTE_STEP_REASON } from "./declare";
+import { AvailableResource, SudoRPCExecutionPlanStep, SUDORPC_PLAN_EXECUTE_STEP_REASON } from "./declare";
 import { SudoRPCProcessStatus } from "./process-status";
 
 export const PROCESS_MEDIUM_DEPENDENCY_NOT_FOUND_SYMBOL = Symbol('dependency-not-found');
@@ -173,12 +173,18 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
 
         if (possibleStatuses.length !== 0) {
 
-            const result: SudoRPCProcessStatus<Metadata, Payload, SuccessResult, FailResult> =
-                possibleStatuses[0];
+            const bestOption: SudoRPCProcessStatus<Metadata, Payload, SuccessResult, FailResult> =
+                possibleStatuses.reduce((previous: SudoRPCProcessStatus<Metadata, Payload, SuccessResult, FailResult>, current: SudoRPCProcessStatus<Metadata, Payload, SuccessResult, FailResult>) => {
+
+                    if (previous.steps.length < current.steps.length) {
+                        return previous;
+                    }
+                    return current;
+                });
 
             return {
                 success: true,
-                status: result,
+                status: bestOption,
             };
         }
 

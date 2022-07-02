@@ -71,7 +71,7 @@ describe('Given {SudoRPCProcessMedium} Class', (): void => {
             (result as any).status.steps;
 
         expect(result.success).to.be.true;
-        expect(steps).to.has.lengthOf(4);
+        expect(steps).to.has.lengthOf(3);
     });
 
     it('should be able to reject infinity loop dependencies', (): void => {
