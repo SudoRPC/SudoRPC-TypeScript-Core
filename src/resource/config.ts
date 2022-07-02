@@ -43,4 +43,4 @@ export const fixCreateEndpointResourceConfig = (config?: Partial<CreateEndpointR
         ...defaultConfig,
         ...config,
     };
-}
+};

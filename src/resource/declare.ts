@@ -16,6 +16,7 @@ export type CreateResourceConfig = {
     readonly satisfies: string[];
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type CreateMiddlewareResourceConfig = {
 } & CreateResourceConfig;
 

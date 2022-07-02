@@ -9,6 +9,7 @@ import { AvailableResource, SudoRPCExecutionPlanStep, SUDORPC_PLAN_EXECUTE_STEP_
 export const PROCESS_MEDIUM_DEPENDENCY_NOT_FOUND_SYMBOL = Symbol('dependency-not-found');
 export const PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL = Symbol('infinity-loop');
 export const PROCESS_MEDIUM_RESOURCE_NOT_FOUND_SYMBOL = Symbol('resource-not-found');
+export const PROCESS_MEDIUM_UNKNOWN_SYMBOL = Symbol('unknown');
 
 export type FulfillDependencySymbolResult = {
 
@@ -20,7 +21,8 @@ export type FulfillDependencySymbolResult = {
     readonly result:
     | typeof PROCESS_MEDIUM_DEPENDENCY_NOT_FOUND_SYMBOL
     | typeof PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL
-    | typeof PROCESS_MEDIUM_RESOURCE_NOT_FOUND_SYMBOL;
+    | typeof PROCESS_MEDIUM_RESOURCE_NOT_FOUND_SYMBOL
+    | typeof PROCESS_MEDIUM_UNKNOWN_SYMBOL;
 
     readonly payload: Record<string, any>;
 };
@@ -102,9 +104,19 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
         const possibleFulfills: Set<AvailableResource<Metadata, Payload, SuccessResult, FailResult>> =
             this._satisfies.get(dependency) as Set<AvailableResource<Metadata, Payload, SuccessResult, FailResult>>;
 
+        const erroredOptions: FulfillDependencySymbolResult[] = [];
+
         for (const possibleFulfill of possibleFulfills) {
 
             if (visitedResources.has(possibleFulfill)) {
+
+                erroredOptions.push({
+                    success: false,
+                    result: PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL,
+                    payload: {
+                        dependency,
+                    },
+                });
                 continue;
             }
             visitedResources.add(possibleFulfill);
@@ -117,7 +129,9 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
                     const result: FulfillDependencySymbolResult =
                         this._fulfillDependency(eachDependency, visitedResources);
                     if (!result.success) {
-                        return result;
+
+                        erroredOptions.push(result);
+                        continue;
                     }
                 }
             }
@@ -135,9 +149,13 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
             };
         }
 
+        if (erroredOptions.length !== 0) {
+            return erroredOptions[0];
+        }
+
         return {
             success: false,
-            result: PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL,
+            result: PROCESS_MEDIUM_UNKNOWN_SYMBOL,
             payload: {
                 dependency,
             },

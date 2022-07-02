@@ -9,6 +9,7 @@ import { expect } from "chai";
 import * as Chance from "chance";
 import { FulfillDependencySymbolResult, PROCESS_MEDIUM_INFINITY_LOOP_SYMBOL, SudoRPCExecutionPlanStep, SudoRPCProcessMedium } from "../../../src";
 import { infinityLoopSatisfies, infinityLoopSatisfiesRoot } from "../../mock/dependencies/infinity-loop-satisfies";
+import { multipleOptionsSatisfies, multipleOptionsSatisfiesRoot } from "../../mock/dependencies/multiple-options";
 import { simpleSatisfies, simpleSatisfiesRoot } from "../../mock/dependencies/simple-satisfies";
 import { twoResourcesNeedOneSatisfies, twoResourcesNeedOneSatisfiesRoot } from "../../mock/dependencies/two-resource-need-one-satisfies";
 import { twoResourcesNeedOneSatisfiesChain, twoResourcesNeedOneSatisfiesChainRoot } from "../../mock/dependencies/two-resource-need-one-satisfies-chain";
@@ -66,6 +67,19 @@ describe('Given {SudoRPCProcessMedium} Class', (): void => {
         const result: FulfillDependencySymbolResult = processMedium.fulfill(twoResourcesNeedOneSatisfiesChainRoot);
 
         const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = processMedium.steps;
+
+        expect(result.success).to.be.true;
+        expect(steps).to.has.lengthOf(6);
+    });
+
+    it('should be able to pickup best option from options', (): void => {
+
+        const processMedium = SudoRPCProcessMedium.create(multipleOptionsSatisfies);
+        const result: FulfillDependencySymbolResult = processMedium.fulfill(multipleOptionsSatisfiesRoot);
+
+        const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = processMedium.steps;
+
+        console.log(steps);
 
         expect(result.success).to.be.true;
         expect(steps).to.has.lengthOf(6);
