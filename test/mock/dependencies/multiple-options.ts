@@ -22,8 +22,7 @@ dep2.addDependency('dep-none');
 
 const dep3 = SudoRPCMiddlewareResource.create('dep3', null as any);
 dep3.addSatisfy('dep2');
-dep3.addDependency('dep5');
-dep3.addDependency('dep6');
+dep3.addDependency('dep4');
 
 const dep4 = SudoRPCMiddlewareResource.create('dep4', null as any);
 dep4.addSatisfy('dep4');
@@ -33,10 +32,9 @@ const dep5 = SudoRPCMiddlewareResource.create('dep5', null as any);
 dep5.addSatisfy('dep5');
 
 const dep6 = SudoRPCMiddlewareResource.create('dep6', null as any);
-dep6.addSatisfy('dep6');
+dep6.addSatisfy('dep4');
 
 multipleOptionsSatisfies.set('dep1', new Set([dep1]));
 multipleOptionsSatisfies.set('dep2', new Set([dep2, dep3]));
-multipleOptionsSatisfies.set('dep4', new Set([dep4]));
+multipleOptionsSatisfies.set('dep4', new Set([dep4, dep6]));
 multipleOptionsSatisfies.set('dep5', new Set([dep5]));
-multipleOptionsSatisfies.set('dep6', new Set([dep6]));

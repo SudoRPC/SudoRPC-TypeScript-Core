@@ -112,11 +112,16 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
 
         const erroredOptions: FulfillDependencySymbolResult[] = [];
 
-        const dependencySteps: SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>[] = [];
+        const possibleStatuses: SudoRPCProcessStatus<Metadata, Payload, SuccessResult, FailResult>[] = [];
 
         possibleLoop: for (const possibleFulfill of possibleFulfills) {
 
-            if (status.isResourceVisited(possibleFulfill)) {
+            const possibleStatus: SudoRPCProcessStatus<Metadata, Payload, SuccessResult, FailResult> =
+                status.clone();
+
+            const dependencySteps: SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>[] = [];
+
+            if (possibleStatus.isResourceVisited(possibleFulfill)) {
 
                 erroredOptions.push({
                     success: false,
@@ -127,16 +132,16 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
                 });
                 continue possibleLoop;
             }
-            status.addVisitedResource(possibleFulfill);
+            possibleStatus.addVisitedResource(possibleFulfill);
 
-            if (!this._canExecute(possibleFulfill, status)) {
+            if (!this._canExecute(possibleFulfill, possibleStatus)) {
 
                 const dependencies: string[] = possibleFulfill.dependencies;
                 for (const eachDependency of dependencies) {
 
                     const result: FulfillDependencySymbolResult = this._fulfillDependency(
                         eachDependency,
-                        status.cloneWithoutSteps(),
+                        possibleStatus.cloneWithoutSteps(),
                     );
 
                     if (!result.success) {
@@ -146,25 +151,34 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
                     }
 
                     dependencySteps.push(...result.status.steps);
-                    status.addFulfilledDependencyList(
+                    possibleStatus.addFulfilledDependencyList(
                         [...result.status.fulfilledDependencies],
                     );
                 }
             }
 
-            status.addStepList(dependencySteps);
+            possibleStatus.addStepList(dependencySteps);
 
-            status.addFulfilledDependency(dependency);
+            possibleStatus.addFulfilledDependency(dependency);
 
-            status.addStep({
+            possibleStatus.addStep({
                 reason: SUDORPC_PLAN_EXECUTE_STEP_REASON.DEPENDENCY,
                 dependencyOf: dependency,
                 resource: possibleFulfill,
             });
 
+            possibleStatuses.push(possibleStatus);
+            continue possibleLoop;
+        }
+
+        if (possibleStatuses.length !== 0) {
+
+            const result: SudoRPCProcessStatus<Metadata, Payload, SuccessResult, FailResult> =
+                possibleStatuses[0];
+
             return {
                 success: true,
-                status,
+                status: result,
             };
         }
 
