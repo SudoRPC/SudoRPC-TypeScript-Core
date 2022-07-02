@@ -7,7 +7,7 @@
 import { SudoRPCHandlerContext } from "../handler/context";
 import { SudoRPCEndpointResourceHandlerReturnObject, SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject } from "../handler/declare";
 import { SudoRPCEndpointHandlerHelper } from "../handler/helper/endpoint-helper";
-import { AvailableResource, SudoRPCExecutionPlan, SudoRPCExecutionPlanStep } from "../planner/declare";
+import { AvailableResource, SudoRPCExecutionPlan, SudoRPCExecutionPlanStep, SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON } from "../planner/declare";
 import { sudoRPCNoParallelOrganizeSteps, sudoRPCOrganizeSteps } from "../planner/organize-step";
 import { SudoRPCPlanner } from "../planner/planner";
 import { SudoRPCCall } from "../structure/call";
@@ -92,6 +92,13 @@ export class SudoRPCService<Metadata, Payload, SuccessResult, FailResult> implem
         call: SudoRPCCall<Metadata, Payload>,
         errorGenerator: SudoRPCServiceErrorGenerator<Metadata, Payload, SuccessResult, FailResult>,
     ): Promise<SudoRPCReturn<SuccessResult, FailResult>> {
+
+        if (!this._planner.verifyTargetCallResource(call)) {
+            return errorGenerator.createExecutePlanNotSatisfiedInternalError({
+                reason: SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON.RESOURCE_NOT_FOUND,
+                resource: call.resource,
+            });
+        }
 
         const dependenciesPlan: SudoRPCExecutionPlan<Metadata, Payload, SuccessResult, FailResult>
             = this._planner.planDependencies(call);

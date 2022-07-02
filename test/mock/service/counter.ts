@@ -39,6 +39,7 @@ export const createCounterService = (): SudoRPCService<any, any, any, any> => {
             );
         }, {
             dependencies: ["plus-one"],
+            exposed: true,
         }),
     );
 

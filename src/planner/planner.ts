@@ -46,6 +46,27 @@ export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
         return this;
     }
 
+    public verifyTargetCallResource(
+        call: SudoRPCCall<Metadata, Payload>,
+    ): boolean {
+
+        if (!this._resources.has(call.resource)) {
+            return false;
+        }
+
+        const targetResource: AvailableResource<Metadata, Payload, SuccessResult, FailResult> =
+            this._resources.get(call.resource) as AvailableResource<Metadata, Payload, SuccessResult, FailResult>;
+
+        if (targetResource[RESOURCE_TYPE_SYMBOL] !== RESOURCE_TYPE.ENDPOINT) {
+            return false;
+        }
+
+        const assertedResource: SudoRPCEndpointResource<Metadata, Payload, SuccessResult, FailResult> =
+            targetResource as SudoRPCEndpointResource<Metadata, Payload, SuccessResult, FailResult>;
+
+        return assertedResource.exposed;
+    }
+
     public planCall(
         call: SudoRPCCall<Metadata, Payload>,
     ): SudoRPCExecutionPlan<Metadata, Payload, SuccessResult, FailResult> {
