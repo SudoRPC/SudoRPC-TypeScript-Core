@@ -30,6 +30,7 @@ export const createCounterService = (): SudoRPCService<any, any, any, any> => {
         ): SudoRPCEndpointResourceHandlerReturn<any, any> => {
 
             return helper.createSuccessReturn(
+                // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
                 context.getPayloadKey("first")
                 + context.getPayloadKey("second")
                 + context.getDefaultContext("plus"),

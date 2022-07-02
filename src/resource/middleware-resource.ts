@@ -11,7 +11,7 @@ import { SudoRPCCall } from "../structure/call";
 import { SudoRPCBaseResource } from "./base-resource";
 import { RESOURCE_TYPE, RESOURCE_TYPE_SYMBOL } from "./declare";
 
-export class SudoRPCMiddlewareResource<Metadata, Payload, FailResult> extends SudoRPCBaseResource<Metadata, Payload> {
+export class SudoRPCMiddlewareResource<Metadata, Payload, FailResult> extends SudoRPCBaseResource {
 
     public static create<Metadata, Payload, FailResult>(
         resourceName: string,

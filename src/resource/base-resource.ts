@@ -4,7 +4,7 @@
  * @description Base Resource
  */
 
-export abstract class SudoRPCBaseResource<Metadata, Payload> {
+export abstract class SudoRPCBaseResource {
 
     protected readonly _resourceName: string;
 

@@ -37,14 +37,14 @@ export class MockLocalCallProxy extends SudoRPCCallProxy<any, any, any, any> {
     }
 
     public addListener(
-        listenerIdentifier: string,
+        _listenerIdentifier: string,
         callback: (message: SudoRPCReturn<any, any>) => void,
     ): void {
 
         this._callback = callback;
     }
 
-    public removeListener(listenerIdentifier: string): void {
+    public removeListener(_listenerIdentifier: string): void {
 
         this._callback = null;
     }
