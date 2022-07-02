@@ -23,7 +23,9 @@ describe('Given [Organize-Steps] Helper Functions', (): void => {
         const processMedium = SudoRPCProcessMedium.create(simpleSatisfies);
         const result: FulfillDependencySymbolResult = processMedium.fulfill(simpleSatisfiesRoot);
 
-        const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = processMedium.steps;
+        const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> =
+            (result as any).status.steps;
+
         const appendedSteps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = sudoRPCAppendCallStep(steps, simpleSatisfiesRoot);
 
         const organizedSteps: Array<Array<SudoRPCExecutionPlanStep<any, any, any, any>>> = sudoRPCOrganizeSteps(appendedSteps);
@@ -40,7 +42,9 @@ describe('Given [Organize-Steps] Helper Functions', (): void => {
         const processMedium = SudoRPCProcessMedium.create(twoResourcesNeedOneSatisfies);
         const result: FulfillDependencySymbolResult = processMedium.fulfill(twoResourcesNeedOneSatisfiesRoot);
 
-        const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = processMedium.steps;
+        const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> =
+            (result as any).status.steps;
+
         const appendedSteps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = sudoRPCAppendCallStep(steps, twoResourcesNeedOneSatisfiesRoot);
 
         const organizedSteps: Array<Array<SudoRPCExecutionPlanStep<any, any, any, any>>> = sudoRPCOrganizeSteps(appendedSteps);
@@ -57,7 +61,9 @@ describe('Given [Organize-Steps] Helper Functions', (): void => {
         const processMedium = SudoRPCProcessMedium.create(twoResourcesNeedOneSatisfiesChain);
         const result: FulfillDependencySymbolResult = processMedium.fulfill(twoResourcesNeedOneSatisfiesChainRoot);
 
-        const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = processMedium.steps;
+        const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> =
+            (result as any).status.steps;
+
         const appendedSteps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = sudoRPCAppendCallStep(steps, twoResourcesNeedOneSatisfiesChainRoot);
 
         const organizedSteps: Array<Array<SudoRPCExecutionPlanStep<any, any, any, any>>> = sudoRPCOrganizeSteps(appendedSteps);
@@ -76,7 +82,9 @@ describe('Given [Organize-Steps] Helper Functions', (): void => {
         const processMedium = SudoRPCProcessMedium.create(twoResourcesNeedOneSatisfiesChain);
         const result: FulfillDependencySymbolResult = processMedium.fulfill(twoResourcesNeedOneSatisfiesChainRoot);
 
-        const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = processMedium.steps;
+        const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> =
+            (result as any).status.steps;
+
         const appendedSteps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = sudoRPCAppendCallStep(steps, twoResourcesNeedOneSatisfiesChainRoot);
 
         const organizedSteps: Array<Array<SudoRPCExecutionPlanStep<any, any, any, any>>> = sudoRPCNoParallelOrganizeSteps(appendedSteps);

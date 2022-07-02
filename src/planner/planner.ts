@@ -128,7 +128,7 @@ export class SudoRPCPlanner<Metadata, Payload, SuccessResult, FailResult> {
 
         if (result.success) {
 
-            const steps: Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>> = medium.steps;
+            const steps: Array<SudoRPCExecutionPlanStep<Metadata, Payload, SuccessResult, FailResult>> = result.status.steps;
 
             return {
                 satisfiable: true,

@@ -31,22 +31,10 @@ describe('Given {SudoRPCProcessMedium} Class', (): void => {
         const processMedium = SudoRPCProcessMedium.create(simpleSatisfies);
         const result: FulfillDependencySymbolResult = processMedium.fulfill(simpleSatisfiesRoot);
 
-        const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = processMedium.steps;
+        const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> =
+            (result as any).status.steps;
 
         expect(result.success).to.be.true;
-        expect(steps).to.has.lengthOf(2);
-    });
-
-    it('should be able to resolve simple dependencies twice', (): void => {
-
-        const processMedium = SudoRPCProcessMedium.create(simpleSatisfies);
-        const result1: FulfillDependencySymbolResult = processMedium.fulfill(simpleSatisfiesRoot);
-        const result2: FulfillDependencySymbolResult = processMedium.fulfill(simpleSatisfiesRoot);
-
-        const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = processMedium.steps;
-
-        expect(result1.success).to.be.true;
-        expect(result2.success).to.be.true;
         expect(steps).to.has.lengthOf(2);
     });
 
@@ -55,7 +43,8 @@ describe('Given {SudoRPCProcessMedium} Class', (): void => {
         const processMedium = SudoRPCProcessMedium.create(twoResourcesNeedOneSatisfies);
         const result: FulfillDependencySymbolResult = processMedium.fulfill(twoResourcesNeedOneSatisfiesRoot);
 
-        const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = processMedium.steps;
+        const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> =
+            (result as any).status.steps;
 
         expect(result.success).to.be.true;
         expect(steps).to.has.lengthOf(3);
@@ -66,7 +55,8 @@ describe('Given {SudoRPCProcessMedium} Class', (): void => {
         const processMedium = SudoRPCProcessMedium.create(twoResourcesNeedOneSatisfiesChain);
         const result: FulfillDependencySymbolResult = processMedium.fulfill(twoResourcesNeedOneSatisfiesChainRoot);
 
-        const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = processMedium.steps;
+        const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> =
+            (result as any).status.steps;
 
         expect(result.success).to.be.true;
         expect(steps).to.has.lengthOf(6);
@@ -77,7 +67,8 @@ describe('Given {SudoRPCProcessMedium} Class', (): void => {
         const processMedium = SudoRPCProcessMedium.create(multipleOptionsSatisfies);
         const result: FulfillDependencySymbolResult = processMedium.fulfill(multipleOptionsSatisfiesRoot);
 
-        const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> = processMedium.steps;
+        const steps: Array<SudoRPCExecutionPlanStep<any, any, any, any>> =
+            (result as any).status.steps;
 
         expect(result.success).to.be.true;
         expect(steps).to.has.lengthOf(4);
