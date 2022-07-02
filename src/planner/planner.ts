@@ -4,7 +4,7 @@
  * @description Planner
  */
 
-import { RESOURCE_TYPE, RESOURCE_TYPE_SYMBOL } from "../resource/base-resource";
+import { RESOURCE_TYPE_SYMBOL, RESOURCE_TYPE } from "../resource/declare";
 import { SudoRPCEndpointResource } from "../resource/endpoint-resource";
 import { SudoRPCCall } from "../structure/call";
 import { AvailableResource, SudoRPCExecutionPlan, SudoRPCExecutionPlanStep, SUDORPC_EXECUTE_PLAN_NOT_SATISFIED_REASON, SUDORPC_PLAN_EXECUTE_STEP_REASON } from "./declare";

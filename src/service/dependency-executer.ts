@@ -7,7 +7,7 @@
 import { SudoRPCHandlerContext } from "../handler/context";
 import { SudoRPCEndpointResourceHandlerReturn, SudoRPCMiddlewareResourceHandlerReturn, SudoRPCMiddlewareResourceHandlerReturnObject, SudoRPCMiddlewareResourceHandlerShouldAbortReturnObject } from "../handler/declare";
 import { AvailableResource } from "../planner/declare";
-import { RESOURCE_TYPE, RESOURCE_TYPE_SYMBOL } from "../resource/base-resource";
+import { RESOURCE_TYPE, RESOURCE_TYPE_SYMBOL } from "../resource/declare";
 import { SudoRPCEndpointResource } from "../resource/endpoint-resource";
 import { SudoRPCMiddlewareResource } from "../resource/middleware-resource";
 import { SudoRPCCall } from "../structure/call";
