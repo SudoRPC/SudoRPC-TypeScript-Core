@@ -18,7 +18,7 @@ dep1.addDependency('dep2');
 
 const dep2 = SudoRPCMiddlewareResource.create('dep2', null as any);
 dep2.addSatisfy('dep2');
-dep2.addDependency('dep-none')
+dep2.addDependency('dep-none');
 
 const dep3 = SudoRPCMiddlewareResource.create('dep3', null as any);
 dep3.addSatisfy('dep2');
