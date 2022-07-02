@@ -9,22 +9,21 @@ import { SudoRPCMiddlewareResourceHandler, SudoRPCMiddlewareResourceHandlerRetur
 import { SudoRPCMiddlewareHandlerHelper } from "../handler/helper/middleware-helper";
 import { SudoRPCCall } from "../structure/call";
 import { SudoRPCBaseResource } from "./base-resource";
-import { RESOURCE_TYPE, RESOURCE_TYPE_SYMBOL } from "./declare";
+import { fixCreateMiddlewareResourceConfig } from "./config";
+import { CreateMiddlewareResourceConfig, RESOURCE_TYPE, RESOURCE_TYPE_SYMBOL } from "./declare";
 
 export class SudoRPCMiddlewareResource<Metadata, Payload, FailResult> extends SudoRPCBaseResource {
 
     public static create<Metadata, Payload, FailResult>(
         resourceName: string,
         handler: SudoRPCMiddlewareResourceHandler<Metadata, Payload, FailResult>,
-        dependencies: string[] = [],
-        satisfies: string[] = [],
+        config?: Partial<CreateMiddlewareResourceConfig>,
     ): SudoRPCMiddlewareResource<Metadata, Payload, FailResult> {
 
         return new SudoRPCMiddlewareResource<Metadata, Payload, FailResult>(
             resourceName,
             handler,
-            dependencies,
-            satisfies,
+            fixCreateMiddlewareResourceConfig(config),
         );
     }
 
@@ -35,11 +34,10 @@ export class SudoRPCMiddlewareResource<Metadata, Payload, FailResult> extends Su
     private constructor(
         resourceName: string,
         handler: SudoRPCMiddlewareResourceHandler<Metadata, Payload, FailResult>,
-        dependencies: string[],
-        satisfies: string[],
+        config: CreateMiddlewareResourceConfig,
     ) {
 
-        super(resourceName, dependencies, satisfies);
+        super(resourceName, config.dependencies, config.satisfies);
 
         this._handler = handler;
     }

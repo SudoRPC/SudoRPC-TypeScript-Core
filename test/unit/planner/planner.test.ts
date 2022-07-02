@@ -22,7 +22,7 @@ describe('Given {SudoRPCPlanner} Class', (): void => {
 
     it('should be able to plan for multiple dependencies', (): void => {
 
-        const root = SudoRPCEndpointResource.createExposed('root', null as any);
+        const root = SudoRPCEndpointResource.create('root', null as any);
         root.addDependency('dep1');
 
         const dep1 = SudoRPCMiddlewareResource.create('dep1', null as any);
@@ -65,7 +65,7 @@ describe('Given {SudoRPCPlanner} Class', (): void => {
 
     it('should be able to plan for complex dependencies', (): void => {
 
-        const root = SudoRPCEndpointResource.createExposed('root', null as any);
+        const root = SudoRPCEndpointResource.create('root', null as any);
         root.addDependency('dep1');
 
         const dep1 = SudoRPCMiddlewareResource.create('dep1', null as any);

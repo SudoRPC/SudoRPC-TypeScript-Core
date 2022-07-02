@@ -9,39 +9,21 @@ import { SudoRPCEndpointResourceHandler, SudoRPCEndpointResourceHandlerReturn } 
 import { SudoRPCEndpointHandlerHelper } from "../handler/helper/endpoint-helper";
 import { SudoRPCCall } from "../structure/call";
 import { SudoRPCBaseResource } from "./base-resource";
-import { RESOURCE_TYPE, RESOURCE_TYPE_SYMBOL } from "./declare";
+import { fixCreateEndpointResourceConfig } from "./config";
+import { CreateEndpointResourceConfig, RESOURCE_TYPE, RESOURCE_TYPE_SYMBOL } from "./declare";
 
 export class SudoRPCEndpointResource<Metadata, Payload, SuccessResult, FailResult> extends SudoRPCBaseResource {
 
-    public static createPrivate<Metadata, Payload, SuccessResult, FailResult>(
+    public static create<Metadata, Payload, SuccessResult, FailResult>(
         resourceName: string,
         handler: SudoRPCEndpointResourceHandler<Metadata, Payload, SuccessResult, FailResult>,
-        dependencies: string[] = [],
-        satisfies: string[] = [],
+        config?: Partial<CreateEndpointResourceConfig>,
     ): SudoRPCEndpointResource<Metadata, Payload, SuccessResult, FailResult> {
 
         return new SudoRPCEndpointResource<Metadata, Payload, SuccessResult, FailResult>(
             resourceName,
             handler,
-            dependencies,
-            satisfies,
-            false,
-        );
-    }
-
-    public static createExposed<Metadata, Payload, SuccessResult, FailResult>(
-        resourceName: string,
-        handler: SudoRPCEndpointResourceHandler<Metadata, Payload, SuccessResult, FailResult>,
-        dependencies: string[] = [],
-        satisfies: string[] = [],
-    ): SudoRPCEndpointResource<Metadata, Payload, SuccessResult, FailResult> {
-
-        return new SudoRPCEndpointResource<Metadata, Payload, SuccessResult, FailResult>(
-            resourceName,
-            handler,
-            dependencies,
-            satisfies,
-            true,
+            fixCreateEndpointResourceConfig(config),
         );
     }
 
@@ -54,16 +36,14 @@ export class SudoRPCEndpointResource<Metadata, Payload, SuccessResult, FailResul
     private constructor(
         resourceName: string,
         handler: SudoRPCEndpointResourceHandler<Metadata, Payload, SuccessResult, FailResult>,
-        dependencies: string[],
-        satisfies: string[],
-        exposed: boolean,
+        config: CreateEndpointResourceConfig,
     ) {
 
-        super(resourceName, dependencies, satisfies);
+        super(resourceName, config.dependencies, config.satisfies);
 
         this._handler = handler;
 
-        this._exposed = exposed;
+        this._exposed = config.exposed;
     }
 
     public get exposed(): boolean {

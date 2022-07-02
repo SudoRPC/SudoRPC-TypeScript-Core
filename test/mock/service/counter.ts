@@ -20,11 +20,13 @@ export const createCounterService = (): SudoRPCService<any, any, any, any> => {
             context.setDefaultContext("plus", 1);
 
             return helper.createShouldContinueReturn();
-        }, [], ["plus-one"]),
+        }, {
+            satisfies: ["plus-one"],
+        }),
     );
 
     service.register(
-        SudoRPCEndpointResource.createExposed("increment", (
+        SudoRPCEndpointResource.create("increment", (
             context: SudoRPCHandlerContext<any, any>,
             helper: SudoRPCEndpointHandlerHelper<any, any, any, any>,
         ): SudoRPCEndpointResourceHandlerReturn<any, any> => {
@@ -35,7 +37,9 @@ export const createCounterService = (): SudoRPCService<any, any, any, any> => {
                 + context.getPayloadKey("second")
                 + context.getDefaultContext("plus"),
             );
-        }, ["plus-one"]),
+        }, {
+            dependencies: ["plus-one"],
+        }),
     );
 
     return service;

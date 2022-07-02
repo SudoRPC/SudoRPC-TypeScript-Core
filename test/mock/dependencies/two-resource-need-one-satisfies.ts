@@ -9,7 +9,7 @@ import { AvailableResource, SudoRPCEndpointResource, SudoRPCMiddlewareResource }
 
 export const twoResourcesNeedOneSatisfies: Map<string, Set<AvailableResource<any, any, any, any>>> = new Map();
 
-export const twoResourcesNeedOneSatisfiesRoot = SudoRPCEndpointResource.createExposed('root', null as any);
+export const twoResourcesNeedOneSatisfiesRoot = SudoRPCEndpointResource.create('root', null as any);
 twoResourcesNeedOneSatisfiesRoot.addDependency('dep1');
 
 const dep1 = SudoRPCMiddlewareResource.create('dep1', null as any);

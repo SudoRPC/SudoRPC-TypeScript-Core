@@ -15,7 +15,7 @@ describe('Given {SudoRPCEndpointResource} Class', (): void => {
 
     it('should be able to construct', (): void => {
 
-        const resource = SudoRPCEndpointResource.createExposed(chance.string(), null as any);
+        const resource = SudoRPCEndpointResource.create(chance.string(), null as any);
 
         expect(resource).to.be.instanceOf(SudoRPCEndpointResource);
     });
