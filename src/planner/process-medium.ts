@@ -85,12 +85,11 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
             };
         }
 
+        const erroredOptions: FulfillDependencySymbolResult[] = [];
+        const possibleStatuses: Array<SudoRPCProcessStatus<Metadata, Payload, SuccessResult, FailResult>> = [];
+
         const possibleFulfills: Set<AvailableResource<Metadata, Payload, SuccessResult, FailResult>> =
             this._satisfies.get(dependency) as Set<AvailableResource<Metadata, Payload, SuccessResult, FailResult>>;
-
-        const erroredOptions: FulfillDependencySymbolResult[] = [];
-
-        const possibleStatuses: Array<SudoRPCProcessStatus<Metadata, Payload, SuccessResult, FailResult>> = [];
 
         possibleLoop: for (const possibleFulfill of possibleFulfills) {
 
@@ -152,7 +151,10 @@ export class SudoRPCProcessMedium<Metadata, Payload, SuccessResult, FailResult> 
         if (possibleStatuses.length !== 0) {
 
             const bestOption: SudoRPCProcessStatus<Metadata, Payload, SuccessResult, FailResult> =
-                possibleStatuses.reduce((previous: SudoRPCProcessStatus<Metadata, Payload, SuccessResult, FailResult>, current: SudoRPCProcessStatus<Metadata, Payload, SuccessResult, FailResult>) => {
+                possibleStatuses.reduce((
+                    previous: SudoRPCProcessStatus<Metadata, Payload, SuccessResult, FailResult>,
+                    current: SudoRPCProcessStatus<Metadata, Payload, SuccessResult, FailResult>,
+                ) => {
 
                     if (previous.steps.length < current.steps.length) {
                         return previous;
