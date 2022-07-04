@@ -7,6 +7,8 @@
 
 TypeScript Core for SudoRPC
 
+## Install
+
 ```sh
 yarn add @sudorpc/core
 # Or
