@@ -5,16 +5,20 @@
  */
 
 import { SudoRPCCall } from "../structure/call";
-import { SudoRPCReturn } from "../structure/return";
+import { SudoRPCCallProxyCallback } from "./declare";
 
 export abstract class SudoRPCCallProxy<Metadata, Payload, SuccessResult, FailResult> {
 
-    public abstract send(call: SudoRPCCall<Metadata, Payload>): void;
+    public abstract send(
+        call: SudoRPCCall<Metadata, Payload>,
+    ): void;
 
     public abstract addListener(
         listenerIdentifier: string,
-        callback: (message: SudoRPCReturn<SuccessResult, FailResult>) => void,
+        callback: SudoRPCCallProxyCallback<SuccessResult, FailResult>,
     ): void;
 
-    public abstract removeListener(listenerIdentifier: string): void;
+    public abstract removeListener(
+        listenerIdentifier: string,
+    ): void;
 }

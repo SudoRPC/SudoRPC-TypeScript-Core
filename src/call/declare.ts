@@ -4,6 +4,8 @@
  * @description Declare
  */
 
+import { SudoRPCReturn } from "../structure/return";
+
 export type SudoRPCCreateCallConfig<Metadata, Payload> = {
 
     readonly resource: string;
@@ -12,3 +14,5 @@ export type SudoRPCCreateCallConfig<Metadata, Payload> = {
     readonly metadata: Metadata;
     readonly payload: Payload;
 };
+
+export type SudoRPCCallProxyCallback<SuccessResult, FailResult> = (message: SudoRPCReturn<SuccessResult, FailResult>) => void;
