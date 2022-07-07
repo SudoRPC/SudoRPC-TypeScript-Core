@@ -28,6 +28,13 @@ export class SudoRPCServiceErrorGenerator<Metadata, Payload, SuccessResult, Fail
         this._call = call;
     }
 
+    public createError(
+        errorOption: ErrorGeneratorCreateErrorOption<FailResult>,
+    ): SudoRPCReturn<SuccessResult, FailResult> {
+
+        return this.createErrors([errorOption]);
+    }
+
     public createErrors(
         errorOptions: Array<ErrorGeneratorCreateErrorOption<FailResult>>,
     ): SudoRPCReturn<SuccessResult, FailResult> {
@@ -45,6 +52,13 @@ export class SudoRPCServiceErrorGenerator<Metadata, Payload, SuccessResult, Fail
                 };
             }),
         };
+    }
+
+    public createInternalError(
+        errorOption: ErrorGeneratorCreateInternalErrorOption,
+    ): SudoRPCReturn<SuccessResult, FailResult> {
+
+        return this.createInternalErrors([errorOption]);
     }
 
     public createInternalErrors(
