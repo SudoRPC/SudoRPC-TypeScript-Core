@@ -19,7 +19,7 @@
     "@sudoo/uuid": "^1.1.0"
   },
   "devDependencies": {
-    "@sudoo/triforce": "^3.7.0"
+    "@sudoo/triforce": "^3.8.0"
   },
   "nyc": {
     "extension": [
